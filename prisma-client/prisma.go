@@ -68,7 +68,7 @@ func (client *Client) User(params UserWhereUniqueInput) *UserExec {
 		params,
 		[2]string{"UserWhereUniqueInput!", "User"},
 		"user",
-		[]string{"id", "name"})
+		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -102,7 +102,7 @@ func (client *Client) Users(params *UsersParams) *UserExecArray {
 		wparams,
 		[3]string{"UserWhereInput", "UserOrderByInput", "User"},
 		"users",
-		[]string{"id", "name"})
+		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
 
 	return &UserExecArray{ret}
 }
@@ -146,7 +146,7 @@ func (client *Client) CreateUser(params UserCreateInput) *UserExec {
 		params,
 		[2]string{"UserCreateInput!", "User"},
 		"createUser",
-		[]string{"id", "name"})
+		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -164,7 +164,7 @@ func (client *Client) UpdateUser(params UserUpdateParams) *UserExec {
 		},
 		[3]string{"UserUpdateInput!", "UserWhereUniqueInput!", "User"},
 		"updateUser",
-		[]string{"id", "name"})
+		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -201,7 +201,7 @@ func (client *Client) UpsertUser(params UserUpsertParams) *UserExec {
 		uparams,
 		[4]string{"UserWhereUniqueInput!", "UserCreateInput!", "UserUpdateInput!", "User"},
 		"upsertUser",
-		[]string{"id", "name"})
+		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -211,7 +211,7 @@ func (client *Client) DeleteUser(params UserWhereUniqueInput) *UserExec {
 		params,
 		[2]string{"UserWhereUniqueInput!", "User"},
 		"deleteUser",
-		[]string{"id", "name"})
+		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -224,10 +224,20 @@ func (client *Client) DeleteManyUsers(params *UserWhereInput) *BatchPayloadExec 
 type UserOrderByInput string
 
 const (
-	UserOrderByInputIDAsc    UserOrderByInput = "id_ASC"
-	UserOrderByInputIDDesc   UserOrderByInput = "id_DESC"
-	UserOrderByInputNameAsc  UserOrderByInput = "name_ASC"
-	UserOrderByInputNameDesc UserOrderByInput = "name_DESC"
+	UserOrderByInputIDAsc            UserOrderByInput = "id_ASC"
+	UserOrderByInputIDDesc           UserOrderByInput = "id_DESC"
+	UserOrderByInputNameAsc          UserOrderByInput = "name_ASC"
+	UserOrderByInputNameDesc         UserOrderByInput = "name_DESC"
+	UserOrderByInputUsernameAsc      UserOrderByInput = "username_ASC"
+	UserOrderByInputUsernameDesc     UserOrderByInput = "username_DESC"
+	UserOrderByInputEmailAsc         UserOrderByInput = "email_ASC"
+	UserOrderByInputEmailDesc        UserOrderByInput = "email_DESC"
+	UserOrderByInputPasswordAsc      UserOrderByInput = "password_ASC"
+	UserOrderByInputPasswordDesc     UserOrderByInput = "password_DESC"
+	UserOrderByInputRegisteredAtAsc  UserOrderByInput = "registeredAt_ASC"
+	UserOrderByInputRegisteredAtDesc UserOrderByInput = "registeredAt_DESC"
+	UserOrderByInputUpdatedAtAsc     UserOrderByInput = "updatedAt_ASC"
+	UserOrderByInputUpdatedAtDesc    UserOrderByInput = "updatedAt_DESC"
 )
 
 type MutationType string
@@ -243,48 +253,115 @@ type UserWhereUniqueInput struct {
 }
 
 type UserWhereInput struct {
-	ID                *string          `json:"id,omitempty"`
-	IDNot             *string          `json:"id_not,omitempty"`
-	IDIn              []string         `json:"id_in,omitempty"`
-	IDNotIn           []string         `json:"id_not_in,omitempty"`
-	IDLt              *string          `json:"id_lt,omitempty"`
-	IDLte             *string          `json:"id_lte,omitempty"`
-	IDGt              *string          `json:"id_gt,omitempty"`
-	IDGte             *string          `json:"id_gte,omitempty"`
-	IDContains        *string          `json:"id_contains,omitempty"`
-	IDNotContains     *string          `json:"id_not_contains,omitempty"`
-	IDStartsWith      *string          `json:"id_starts_with,omitempty"`
-	IDNotStartsWith   *string          `json:"id_not_starts_with,omitempty"`
-	IDEndsWith        *string          `json:"id_ends_with,omitempty"`
-	IDNotEndsWith     *string          `json:"id_not_ends_with,omitempty"`
-	Name              *string          `json:"name,omitempty"`
-	NameNot           *string          `json:"name_not,omitempty"`
-	NameIn            []string         `json:"name_in,omitempty"`
-	NameNotIn         []string         `json:"name_not_in,omitempty"`
-	NameLt            *string          `json:"name_lt,omitempty"`
-	NameLte           *string          `json:"name_lte,omitempty"`
-	NameGt            *string          `json:"name_gt,omitempty"`
-	NameGte           *string          `json:"name_gte,omitempty"`
-	NameContains      *string          `json:"name_contains,omitempty"`
-	NameNotContains   *string          `json:"name_not_contains,omitempty"`
-	NameStartsWith    *string          `json:"name_starts_with,omitempty"`
-	NameNotStartsWith *string          `json:"name_not_starts_with,omitempty"`
-	NameEndsWith      *string          `json:"name_ends_with,omitempty"`
-	NameNotEndsWith   *string          `json:"name_not_ends_with,omitempty"`
-	And               []UserWhereInput `json:"AND,omitempty"`
+	ID                    *string          `json:"id,omitempty"`
+	IDNot                 *string          `json:"id_not,omitempty"`
+	IDIn                  []string         `json:"id_in,omitempty"`
+	IDNotIn               []string         `json:"id_not_in,omitempty"`
+	IDLt                  *string          `json:"id_lt,omitempty"`
+	IDLte                 *string          `json:"id_lte,omitempty"`
+	IDGt                  *string          `json:"id_gt,omitempty"`
+	IDGte                 *string          `json:"id_gte,omitempty"`
+	IDContains            *string          `json:"id_contains,omitempty"`
+	IDNotContains         *string          `json:"id_not_contains,omitempty"`
+	IDStartsWith          *string          `json:"id_starts_with,omitempty"`
+	IDNotStartsWith       *string          `json:"id_not_starts_with,omitempty"`
+	IDEndsWith            *string          `json:"id_ends_with,omitempty"`
+	IDNotEndsWith         *string          `json:"id_not_ends_with,omitempty"`
+	Name                  *string          `json:"name,omitempty"`
+	NameNot               *string          `json:"name_not,omitempty"`
+	NameIn                []string         `json:"name_in,omitempty"`
+	NameNotIn             []string         `json:"name_not_in,omitempty"`
+	NameLt                *string          `json:"name_lt,omitempty"`
+	NameLte               *string          `json:"name_lte,omitempty"`
+	NameGt                *string          `json:"name_gt,omitempty"`
+	NameGte               *string          `json:"name_gte,omitempty"`
+	NameContains          *string          `json:"name_contains,omitempty"`
+	NameNotContains       *string          `json:"name_not_contains,omitempty"`
+	NameStartsWith        *string          `json:"name_starts_with,omitempty"`
+	NameNotStartsWith     *string          `json:"name_not_starts_with,omitempty"`
+	NameEndsWith          *string          `json:"name_ends_with,omitempty"`
+	NameNotEndsWith       *string          `json:"name_not_ends_with,omitempty"`
+	Username              *string          `json:"username,omitempty"`
+	UsernameNot           *string          `json:"username_not,omitempty"`
+	UsernameIn            []string         `json:"username_in,omitempty"`
+	UsernameNotIn         []string         `json:"username_not_in,omitempty"`
+	UsernameLt            *string          `json:"username_lt,omitempty"`
+	UsernameLte           *string          `json:"username_lte,omitempty"`
+	UsernameGt            *string          `json:"username_gt,omitempty"`
+	UsernameGte           *string          `json:"username_gte,omitempty"`
+	UsernameContains      *string          `json:"username_contains,omitempty"`
+	UsernameNotContains   *string          `json:"username_not_contains,omitempty"`
+	UsernameStartsWith    *string          `json:"username_starts_with,omitempty"`
+	UsernameNotStartsWith *string          `json:"username_not_starts_with,omitempty"`
+	UsernameEndsWith      *string          `json:"username_ends_with,omitempty"`
+	UsernameNotEndsWith   *string          `json:"username_not_ends_with,omitempty"`
+	Email                 *string          `json:"email,omitempty"`
+	EmailNot              *string          `json:"email_not,omitempty"`
+	EmailIn               []string         `json:"email_in,omitempty"`
+	EmailNotIn            []string         `json:"email_not_in,omitempty"`
+	EmailLt               *string          `json:"email_lt,omitempty"`
+	EmailLte              *string          `json:"email_lte,omitempty"`
+	EmailGt               *string          `json:"email_gt,omitempty"`
+	EmailGte              *string          `json:"email_gte,omitempty"`
+	EmailContains         *string          `json:"email_contains,omitempty"`
+	EmailNotContains      *string          `json:"email_not_contains,omitempty"`
+	EmailStartsWith       *string          `json:"email_starts_with,omitempty"`
+	EmailNotStartsWith    *string          `json:"email_not_starts_with,omitempty"`
+	EmailEndsWith         *string          `json:"email_ends_with,omitempty"`
+	EmailNotEndsWith      *string          `json:"email_not_ends_with,omitempty"`
+	Password              *string          `json:"password,omitempty"`
+	PasswordNot           *string          `json:"password_not,omitempty"`
+	PasswordIn            []string         `json:"password_in,omitempty"`
+	PasswordNotIn         []string         `json:"password_not_in,omitempty"`
+	PasswordLt            *string          `json:"password_lt,omitempty"`
+	PasswordLte           *string          `json:"password_lte,omitempty"`
+	PasswordGt            *string          `json:"password_gt,omitempty"`
+	PasswordGte           *string          `json:"password_gte,omitempty"`
+	PasswordContains      *string          `json:"password_contains,omitempty"`
+	PasswordNotContains   *string          `json:"password_not_contains,omitempty"`
+	PasswordStartsWith    *string          `json:"password_starts_with,omitempty"`
+	PasswordNotStartsWith *string          `json:"password_not_starts_with,omitempty"`
+	PasswordEndsWith      *string          `json:"password_ends_with,omitempty"`
+	PasswordNotEndsWith   *string          `json:"password_not_ends_with,omitempty"`
+	RegisteredAt          *string          `json:"registeredAt,omitempty"`
+	RegisteredAtNot       *string          `json:"registeredAt_not,omitempty"`
+	RegisteredAtIn        []string         `json:"registeredAt_in,omitempty"`
+	RegisteredAtNotIn     []string         `json:"registeredAt_not_in,omitempty"`
+	RegisteredAtLt        *string          `json:"registeredAt_lt,omitempty"`
+	RegisteredAtLte       *string          `json:"registeredAt_lte,omitempty"`
+	RegisteredAtGt        *string          `json:"registeredAt_gt,omitempty"`
+	RegisteredAtGte       *string          `json:"registeredAt_gte,omitempty"`
+	UpdatedAt             *string          `json:"updatedAt,omitempty"`
+	UpdatedAtNot          *string          `json:"updatedAt_not,omitempty"`
+	UpdatedAtIn           []string         `json:"updatedAt_in,omitempty"`
+	UpdatedAtNotIn        []string         `json:"updatedAt_not_in,omitempty"`
+	UpdatedAtLt           *string          `json:"updatedAt_lt,omitempty"`
+	UpdatedAtLte          *string          `json:"updatedAt_lte,omitempty"`
+	UpdatedAtGt           *string          `json:"updatedAt_gt,omitempty"`
+	UpdatedAtGte          *string          `json:"updatedAt_gte,omitempty"`
+	And                   []UserWhereInput `json:"AND,omitempty"`
 }
 
 type UserCreateInput struct {
-	ID   *string `json:"id,omitempty"`
-	Name string  `json:"name"`
+	ID       *string `json:"id,omitempty"`
+	Name     string  `json:"name"`
+	Username string  `json:"username"`
+	Email    string  `json:"email"`
+	Password string  `json:"password"`
 }
 
 type UserUpdateInput struct {
-	Name *string `json:"name,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Username *string `json:"username,omitempty"`
+	Email    *string `json:"email,omitempty"`
+	Password *string `json:"password,omitempty"`
 }
 
 type UserUpdateManyMutationInput struct {
-	Name *string `json:"name,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Username *string `json:"username,omitempty"`
+	Email    *string `json:"email,omitempty"`
+	Password *string `json:"password,omitempty"`
 }
 
 type UserSubscriptionWhereInput struct {
@@ -327,8 +404,13 @@ func (instance UserExecArray) Exec(ctx context.Context) ([]User, error) {
 }
 
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	Username     string `json:"username"`
+	Email        string `json:"email"`
+	Password     string `json:"password"`
+	RegisteredAt string `json:"registeredAt"`
+	UpdatedAt    string `json:"updatedAt"`
 }
 
 type UserConnectionExec struct {
@@ -455,7 +537,7 @@ func (instance *UserEdgeExec) Node() *UserExec {
 		nil,
 		[2]string{"", "User"},
 		"node",
-		[]string{"id", "name"})
+		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -501,7 +583,7 @@ func (instance *UserSubscriptionPayloadExec) Node() *UserExec {
 		nil,
 		[2]string{"", "User"},
 		"node",
-		[]string{"id", "name"})
+		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -512,7 +594,7 @@ func (instance *UserSubscriptionPayloadExec) PreviousValues() *UserPreviousValue
 		nil,
 		[2]string{"", "UserPreviousValues"},
 		"previousValues",
-		[]string{"id", "name"})
+		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
 
 	return &UserPreviousValuesExec{ret}
 }
@@ -580,6 +662,11 @@ func (instance UserPreviousValuesExecArray) Exec(ctx context.Context) ([]UserPre
 }
 
 type UserPreviousValues struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	Username     string `json:"username"`
+	Email        string `json:"email"`
+	Password     string `json:"password"`
+	RegisteredAt string `json:"registeredAt"`
+	UpdatedAt    string `json:"updatedAt"`
 }
