@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/prisma-go/config"
+	"github.com/gin-rest-prisma-boilerplate/config"
 )
 
 func main() {
