@@ -249,7 +249,8 @@ const (
 )
 
 type UserWhereUniqueInput struct {
-	ID *string `json:"id,omitempty"`
+	ID       *string `json:"id,omitempty"`
+	Username *string `json:"username,omitempty"`
 }
 
 type UserWhereInput struct {
