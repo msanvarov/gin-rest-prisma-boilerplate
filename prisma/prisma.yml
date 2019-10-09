@@ -4,4 +4,8 @@ databaseType: document
 
 generate:
   - generator: go-client
-    output: ./generated/prisma-client/
+    output: ../prisma-client/
+
+hooks:
+  post-deploy:
+    - prisma generate
