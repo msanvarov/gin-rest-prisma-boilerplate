@@ -30,8 +30,13 @@ func Router() *gin.Engine {
 
 	api := router.Group("api")
 	{
-		api.POST("/login")
 		api.POST("/register", authController.Register)
+		protected := api.Group("v1", auth.BasicAuth())
+		{
+			protected.GET("/", func(context *gin.Context) {
+				context.JSON(http.StatusOK, gin.H{"message": "Getting protected route", "status": http.StatusOK})
+			})
+		}
 	}
 	return router
 }
