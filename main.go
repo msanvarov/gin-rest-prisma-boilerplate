@@ -8,11 +8,10 @@ import (
 )
 
 func main() {
-	// set this when moving between production and development configs
-	yaml := config.Configuration("development")
+	yaml := config.Configuration("env-config")
 	port := yaml.GetString("server.port")
 
-	routing := router.Router()
+	routing := router.Router(yaml)
 	fmt.Printf("🚀 Preparing to listen on port %s\n", port)
 	err := routing.Run(port)
 	if err != nil {
