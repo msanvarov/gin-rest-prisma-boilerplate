@@ -1,6 +1,6 @@
 # server
-# options between 'dev' and 'prod'
-server.env : "dev"
+# options between 'dev', 'test' and 'prod'
+server.env : "test"
 server.port : ":9000"
 
 # session
