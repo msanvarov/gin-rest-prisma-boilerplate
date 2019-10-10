@@ -1,7 +1,0 @@
-# server
-server.port : ":9000"
-
-# web tokens
-webtoken.secret : "Z97QqCtDtpgg"
-# in seconds
-webtoken.expiration : "2400"
