@@ -1,16 +1,37 @@
 package router
 
 import (
+	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	auth "github.com/gin-rest-prisma-boilerplate/controllers"
+	"github.com/spf13/viper"
+	"log"
 	"net/http"
 )
 
-var authController = new(auth.AuthenticationController)
-
-func Router() *gin.Engine {
+func Router(config *viper.Viper) *gin.Engine {
 	// default gin configuration
 	router := gin.Default()
+
+	if config.GetString("server.env") == "prod" {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
+
+	// session with redis
+	store, storeError := sessions.NewRedisStore(config.GetInt("redis.idle_connections"),
+		config.GetString("redis.network_type"), config.GetString("redis.address"),
+		config.GetString("redis.password"), []byte(config.GetString("redis.secret_key")))
+
+	if storeError != nil {
+		log.Fatal(storeError)
+	}
+
+	router.Use(sessions.Sessions(config.GetString("session.name"), store))
+
+	// controllers
+	authController := new(auth.AuthenticationController)
 
 	// custom middleware
 	router.Use(func(c *gin.Context) {
@@ -28,15 +49,12 @@ func Router() *gin.Engine {
 		c.Next()
 	})
 
-	api := router.Group("api")
+	api := router.Group("api/v1")
 	{
+		api.GET("/session", authController.GetSessionData)
+		api.GET("/logout", authController.Logout)
 		api.POST("/register", authController.Register)
-		protected := api.Group("v1", auth.BasicAuth())
-		{
-			protected.GET("/", func(context *gin.Context) {
-				context.JSON(http.StatusOK, gin.H{"message": "Getting protected route", "status": http.StatusOK})
-			})
-		}
+		api.POST("/login", authController.Login)
 	}
 	return router
 }
