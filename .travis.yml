@@ -1,0 +1,19 @@
+language: go
+go:
+  - master
+
+services:
+  - redis-server
+  - docker
+
+dist: trusty
+
+before_install:
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  - chmod +x $GOPATH/bin/dep
+  - "docker-compose up -d"
+  - dep ensure
+install:
+  - prisma deploy
+script:
+  - go test -v ./tests/*
