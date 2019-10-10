@@ -7,7 +7,8 @@ import (
 
 var (
 	client *prisma.Client
-	once sync.Once)
+	once   sync.Once
+)
 
 func DB() *prisma.Client {
 	once.Do(func() {
