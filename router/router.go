@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
-	auth "github.com/gin-rest-prisma-boilerplate/controllers"
+	"github.com/gin-rest-prisma-boilerplate/controllers"
 	"github.com/spf13/viper"
 	"log"
 	"net/http"
@@ -13,8 +13,11 @@ func Router(config *viper.Viper) *gin.Engine {
 	// default gin configuration
 	router := gin.Default()
 
-	if config.GetString("server.env") == "prod" {
+	env := config.GetString("server.env")
+	if env == "prod" {
 		gin.SetMode(gin.ReleaseMode)
+	} else if env == "test" {
+		gin.SetMode(gin.TestMode)
 	} else {
 		gin.SetMode(gin.DebugMode)
 	}
@@ -31,7 +34,7 @@ func Router(config *viper.Viper) *gin.Engine {
 	router.Use(sessions.Sessions(config.GetString("session.name"), store))
 
 	// controllers
-	authController := new(auth.AuthenticationController)
+	authController := new(controllers.AuthenticationController)
 
 	// custom middleware
 	router.Use(func(c *gin.Context) {
