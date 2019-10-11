@@ -84,6 +84,7 @@ By default, the application comes with a config module that can read every confi
 
 The philosophy behind making the session management, Redis based, came down to understanding that constant reads and writes to a database for cookie management were redundant. The focus was to leave the persistent data in Mongo and less important session-based data in Redis.
 
+---
   
 ### ✅ Testing  
 
