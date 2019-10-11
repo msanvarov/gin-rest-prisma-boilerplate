@@ -16,24 +16,22 @@ This boilerplate is made to quickly prototype backend applications. It comes wit
 ---  
   
 ### 🛠️ Prerequisites  
-  
-#### Docker, Mongo, and Redis 🐳  
-  
--   Please make sure to have docker desktop setup on any preferred operating system to quickly compose the required dependencies. Then follow the docker procedure outlined below.
 
-- Please make sure to have MongoDB locally, or utilize Mongo on the cloud by configuring a cluster in atlas. Then grab the connection string and modify the following [line](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/docker-compose.yml#L17).  
+#### Docker 🐳  
   
-- Since this boilerplate comes with Prisma, Prisma must be setup and configured. A detailed Prisma setup tutorial can be found [here](https://www.prisma.io/docs/get-started/01-setting-up-prisma-existing-database-GO-g003/).  
+- Please make sure to have docker desktop setup on any preferred operating system to quickly compose the required dependencies. Then follow the docker procedure outlined below.
+  
+- A detailed Prisma setup tutorial can be found [here](https://www.prisma.io/docs/get-started/01-setting-up-prisma-existing-database-GO-g003/).  
 
-- Prisma is required for session management. It can be setup using `choco`, `brew` or manually using `wget` or `curl`. Please see the following documentation on [setup instructions](https://redis.io/topics/quickstart).
+- Redis configuration can be found in the [configuration yaml file](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/env-config.yaml#L10)
 
-**Note**: Docker Desktop comes free on both Mac and Windows, but it only works with Windows 10 Pro. A workaround is to get  [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/)  which will bypass the Windows 10 Pro prerequisite by executing in a VM.
+**Note: Docker Desktop comes free on both Mac and Windows, but it only works with Windows 10 Pro. A workaround is to get  [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/)  which will bypass the Windows 10 Pro prerequisite by executing in a VM.**
   
 ### Dep 📦   
 
 - Dep is a package manager for Go. It aids in managing packages for any golang application. To get dep, please type in the following command: `$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh` 
   
-**Note: If on Windows, please use Git Bash or WSL where curl is included by default**   
+**Note: If on Windows, please use Git Bash or WSL where curl is included by default.**   
 
 ---  
   
@@ -53,10 +51,13 @@ $ docker-compose up -d
 $ cd prisma && prisma deploy
 ```
 
-**Note: Please make sure redis is deployed and running on localhost before starting the go server**
+**Note: Please make sure prisma, redis, and mongo are deployed and running on localhost before starting the web server.**
   
-- The following command will set up the project for you (building the Docker images, starting docker-compose stack).   
+- The following command will set up the project for you (building the Docker images, starting the web stack).   
 The web application and Prisma will be exposed to http://localhost:9000 and http://localhost:4466 respectively. 
+
+- Since all the dependency are up and running by now, all is left is to start the gin web server by typing in the following command:
+`go run main.go`
   
 ### 🔒 Environment Configuration  
   
@@ -93,7 +94,7 @@ $ go test -v ./tests/*```
 
 Gin can grow thanks to the sponsors and support by backers. If you'd like to join them, please [read more here](https://github.com/gin-gonic/gin).
 
-----------
+---
 
 ### License
 
