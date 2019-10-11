@@ -1,4 +1,3 @@
-
 <p align="center">  
   <a href="http://golang.org" target="blank"><img src="https://cacophony.org.nz/sites/default/files/gopher.png" width="200" alt="Nest Logo" /></a>  
   <a href="http://golang.org" target="blank"><img src="https://raw.githubusercontent.com/gin-gonic/logo/master/color.png" width="200" alt="Nest Logo" /></a>  
@@ -80,6 +79,11 @@ By default, the application comes with a config module that can read every confi
 **redis.password** - redis password for authentication.
   
 ---  
+
+### ❓Why both Redis and Mongo?
+
+The philosophy behind making the session management, Redis based, came down to understanding that constant reads and writes to a database for cookie management were redundant. The focus was to leave the persistent data in Mongo and less important session-based data in Redis.
+
   
 ### ✅ Testing  
 
