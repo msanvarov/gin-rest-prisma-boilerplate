@@ -23,7 +23,7 @@ This boilerplate is made to quickly prototype backend applications. It comes wit
   
 - A detailed Prisma setup tutorial can be found [here](https://www.prisma.io/docs/get-started/01-setting-up-prisma-existing-database-GO-g003/).  
 
-- Redis configuration can be found in the [configuration yaml file](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/env-config.yaml#L10)
+- Redis configuration can be found in the [configuration yaml file](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml#L10)
 
 **Note: Docker Desktop comes free on both Mac and Windows, but it only works with Windows 10 Pro. A workaround is to get  [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/)  which will bypass the Windows 10 Pro prerequisite by executing in a VM.**
   
@@ -37,7 +37,7 @@ This boilerplate is made to quickly prototype backend applications. It comes wit
   
 ### 🚀 Deployment  
   
-- If needed, replace the existing config variables in the [env-config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/env-config.yaml) file.  
+- If needed, replace the existing config variables in the [config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file.  
 	- Please change the `server.env : "test"` to `server.env : "dev"` for better logging.  
   
 - Install project dependencies using `dep ensure`  
@@ -61,7 +61,7 @@ The web application and Prisma will be exposed to http://localhost:9000 and http
   
 ### 🔒 Environment Configuration  
   
-By default, the application comes with a config module that can read every configuration variable from the `env-config` yaml file.  
+By default, the application comes with a config module that can read every configuration variable from the `config` yaml file.  
   
 **server.env** - the application environment it will be executing as, either in development, production, or testing. Options: `dev`, `test`, or `prod`.   
   
