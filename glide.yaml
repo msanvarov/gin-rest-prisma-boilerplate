@@ -14,4 +14,7 @@ import:
   subpackages:
   - bcrypt
 testImport:
-- package: github.com/bmizerany/assert
+- package: gotest.tools
+  version: ~3.0.0
+  subpackages:
+  - assert
