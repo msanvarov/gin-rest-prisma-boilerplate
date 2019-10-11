@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/garyburd/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 )
@@ -198,7 +198,7 @@ func NewRediStoreWithDB(size int, network, address, password, DB string, keyPair
 // NewRediStoreWithPool instantiates a RediStore with a *redis.Pool passed in.
 func NewRediStoreWithPool(pool *redis.Pool, keyPairs ...[]byte) (*RediStore, error) {
 	rs := &RediStore{
-		// http://godoc.org/github.com/garyburd/redigo/redis#Pool
+		// http://godoc.org/github.com/gomodule/redigo/redis#Pool
 		Pool:   pool,
 		Codecs: securecookie.CodecsFromPairs(keyPairs...),
 		Options: &sessions.Options{
@@ -230,7 +230,10 @@ func (s *RediStore) Get(r *http.Request, name string) (*sessions.Session, error)
 //
 // See gorilla/sessions FilesystemStore.New().
 func (s *RediStore) New(r *http.Request, name string) (*sessions.Session, error) {
-	var err error
+	var (
+		err error
+		ok  bool
+	)
 	session := sessions.NewSession(s, name)
 	// make a copy
 	options := *s.Options
@@ -239,7 +242,7 @@ func (s *RediStore) New(r *http.Request, name string) (*sessions.Session, error)
 	if c, errCookie := r.Cookie(name); errCookie == nil {
 		err = securecookie.DecodeMulti(name, c.Value, &session.ID, s.Codecs...)
 		if err == nil {
-			ok, err := s.load(session)
+			ok, err = s.load(session)
 			session.IsNew = !(err == nil && ok) // not new if no error and data available
 		}
 	}
@@ -249,7 +252,7 @@ func (s *RediStore) New(r *http.Request, name string) (*sessions.Session, error)
 // Save adds a single session to the response.
 func (s *RediStore) Save(r *http.Request, w http.ResponseWriter, session *sessions.Session) error {
 	// Marked for deletion.
-	if session.Options.MaxAge < 0 {
+	if session.Options.MaxAge <= 0 {
 		if err := s.delete(session); err != nil {
 			return err
 		}

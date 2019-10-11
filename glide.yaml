@@ -14,7 +14,7 @@ import:
   subpackages:
   - bcrypt
 testImport:
-- package: gotest.tools
-  version: ~3.0.0
+- package: github.com/stretchr/testify
+  version: ~1.4.0
   subpackages:
   - assert

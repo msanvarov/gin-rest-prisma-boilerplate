@@ -1,0 +1,114 @@
+hash: 3330aabb611f38d32fe5104d4bf70a7c18bba6c0f4ffce689df3c3cf8520bcbf
+updated: 2019-10-11T09:04:40.117137-04:00
+imports:
+- name: github.com/boj/redistore
+  version: cd5dcc76aeff9ba06b0a924829fe24fd69cdd517
+- name: github.com/dgrijalva/jwt-go
+  version: 5e25c22bd5d6de03265bbe5462dcd162f85046f6
+- name: github.com/fsnotify/fsnotify
+  version: dc27d9650c3ebefcf0418e4527f66a589e3f9bde
+- name: github.com/gin-contrib/sse
+  version: 43f0f29dbd2b3f0feeebff91fd9cda22db296938
+- name: github.com/gin-gonic/contrib
+  version: 35076c1b2beaf5f26634fe6468bce6707c3d880a
+  subpackages:
+  - sessions
+- name: github.com/gin-gonic/gin
+  version: b75d67cd51eb53c3c3a2fc406524c940021ffbda
+  subpackages:
+  - binding
+  - internal/json
+  - render
+- name: github.com/golang/protobuf
+  version: 1680a479a2cfb3fa22b972af7e36d0a0fde47bf8
+  subpackages:
+  - proto
+- name: github.com/gomodule/redigo
+  version: d3876d43bbbeb98b4d67309b4d3eef49438ef74c
+  subpackages:
+  - redis
+- name: github.com/gorilla/context
+  version: 8559d4a6b87e4f517ec1846eb90a192b8748cc89
+- name: github.com/gorilla/securecookie
+  version: 86450627d8e6b88e00ea41f228489b89d08a40de
+- name: github.com/gorilla/sessions
+  version: 400b592ab70b9f8ee876cf47bc6c794d255dd4aa
+- name: github.com/hashicorp/hcl
+  version: 5ef25cc8e679070cb61d5d33813645ad59a9d50e
+  subpackages:
+  - hcl/ast
+  - hcl/parser
+  - hcl/printer
+  - hcl/scanner
+  - hcl/strconv
+  - hcl/token
+  - json/parser
+  - json/scanner
+  - json/token
+- name: github.com/json-iterator/go
+  version: 819acad769e54806c920726ac93537ba4e2c22ad
+- name: github.com/machinebox/graphql
+  version: 05b17f3157491bbfa5d6fc2006443a272d960d15
+- name: github.com/magiconair/properties
+  version: de8848e004dd33dc07a2947b3d76f618a7fc7ef1
+- name: github.com/mattn/go-isatty
+  version: 0e9ddb7c0c0aef74fa25eaba4141e6b5ab7aca2a
+- name: github.com/mitchellh/mapstructure
+  version: 3536a929edddb9a5b34bd6861dc4a9647cb459fe
+- name: github.com/modern-go/concurrent
+  version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
+- name: github.com/modern-go/reflect2
+  version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
+- name: github.com/pelletier/go-toml
+  version: e87c92d4f423f333363e6d45b03f65ff8becd029
+- name: github.com/pkg/errors
+  version: 27936f6d90f9c8e1145f11ed52ffffbfdb9e0af7
+- name: github.com/prisma/prisma-client-lib-go
+  version: 68a1f9908416aebb5bbb0bc3cdec3321d74cb7af
+- name: github.com/spf13/afero
+  version: 588a75ec4f32903aa5e39a2619ba6a4631e28424
+  subpackages:
+  - mem
+- name: github.com/spf13/cast
+  version: c01685bb8421cecb276fa517e91f757215f980b3
+- name: github.com/spf13/jwalterweatherman
+  version: 94f6ae3ed3bceceafa716478c5fbf8d29ca601a1
+- name: github.com/spf13/pflag
+  version: 2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab
+- name: github.com/spf13/viper
+  version: b5bf975e5823809fb22c7644d008757f78a4259e
+- name: github.com/ugorji/go
+  version: 42bc974514ff101a54c6b72a0e4dee29d96c0b26
+  subpackages:
+  - codec
+- name: golang.org/x/crypto
+  version: af544f31c8ac5794d2134b792e9eb714d9d8f9ce
+  subpackages:
+  - bcrypt
+  - blowfish
+- name: golang.org/x/sys
+  version: b09406accb4736d857a32bf9444cd7edae2ffa79
+  subpackages:
+  - unix
+- name: golang.org/x/text
+  version: 3d0f7978add91030e5e8976ff65ccdd828286cba
+  subpackages:
+  - transform
+  - unicode/norm
+- name: gopkg.in/go-playground/validator.v8
+  version: 5f1438d3fca68893a817e4a66806cea46a9e4ebf
+- name: gopkg.in/yaml.v2
+  version: f221b8435cfb71e54062f6c6e99e9ade30b124d5
+testImports:
+- name: github.com/davecgh/go-spew
+  version: d8f796af33cc11cb798c1aaeb27a4ebc5099927d
+  subpackages:
+  - spew
+- name: github.com/pmezard/go-difflib
+  version: 5d4384ee4fb2527b0a1256a821ebfc92f91efefc
+  subpackages:
+  - difflib
+- name: github.com/stretchr/testify
+  version: 221dbe5ed46703ee255b1da0dec05086f5035f62
+  subpackages:
+  - assert
