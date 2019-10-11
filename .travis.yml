@@ -1,19 +1,27 @@
-language: go
+language: go node_js
 go:
   - master
 
+node_js:
+  - "stable"
+
 services:
-  - redis-server
   - docker
 
 dist: trusty
 
-before_install:
-  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-  - chmod +x $GOPATH/bin/dep
-  - "docker-compose up -d"
-  - dep ensure
+matrix:
+  allow_failures:
+    - go: master
+  fast_finish: true
+
 install:
+  - "docker-compose up -d"
+  - npm i -g prisma
   - prisma deploy
+  - go get -v github.com/Masterminds/glide
+  - cd $GOPATH/src/github.com/Masterminds/glide && go install && cd -
+  - glide install
+
 script:
   - go test -v ./tests/*
