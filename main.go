@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	yaml := config.Configuration("env-config")
+	yaml := config.Configuration("config")
 	port := yaml.GetString("server.port")
 
 	routing := router.Router(yaml)

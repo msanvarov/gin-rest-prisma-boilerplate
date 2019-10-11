@@ -10,14 +10,14 @@ import (
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/forms"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/prisma-client"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/router"
-	"gotest.tools/assert"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
 var (
-	routing             = router.Router(config.Configuration("../env-config"))
+	routing             = router.Router(config.Configuration("../config"))
 	client              = db.DB()
 	cookie              string
 	registrationPayload = forms.RegistrationForm{
