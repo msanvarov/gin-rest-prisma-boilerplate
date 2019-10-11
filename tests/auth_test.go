@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/bmizerany/assert"
+	"gotest.tools/assert"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/config"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/db"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/forms"
