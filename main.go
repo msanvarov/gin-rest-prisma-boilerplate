@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-rest-prisma-boilerplate/config"
-	"github.com/gin-rest-prisma-boilerplate/router"
+	"github.com/msanvarov/gin-rest-prisma-boilerplate/config"
+	"github.com/msanvarov/gin-rest-prisma-boilerplate/router"
 	"log"
 )
 

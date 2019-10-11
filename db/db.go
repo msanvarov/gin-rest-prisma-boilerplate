@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/gin-rest-prisma-boilerplate/prisma-client"
+	"github.com/msanvarov/gin-rest-prisma-boilerplate/prisma-client"
 	"sync"
 )
 

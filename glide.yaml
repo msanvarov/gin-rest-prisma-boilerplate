@@ -1,4 +1,4 @@
-package: github.com/gin-rest-prisma-boilerplate
+package: github.com/msanvarov/gin-rest-prisma-boilerplate
 import:
 - package: github.com/gin-gonic/contrib
   subpackages:

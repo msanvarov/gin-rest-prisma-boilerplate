@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/gin-rest-prisma-boilerplate/controllers"
+	"github.com/msanvarov/gin-rest-prisma-boilerplate/controllers"
 	"github.com/spf13/viper"
 	"log"
 	"net/http"
