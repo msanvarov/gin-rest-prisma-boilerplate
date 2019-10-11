@@ -4,7 +4,7 @@ services:
     image: prismagraphql/prisma:1.34
     restart: always
     ports:
-    - "4466:4466"
+      - "4466:4466"
     environment:
       PRISMA_CONFIG: |
         port: 4466
@@ -13,5 +13,31 @@ services:
         databases:
           default:
             connector: mongo
-            uri: >-
-              mongodb+srv://msanvarov:55cYINUJdbLOS2LA@basic-cluster-s13sk.mongodb.net/test?retryWrites=true&w=majority
+            uri: 'mongodb://prisma:prisma@mongo'
+  mongo:
+    image: mongo:3.6
+    restart: always
+    # Uncomment the next two lines to connect to your your database from outside the Docker environment, e.g. using a database GUI like Compass
+    # ports:
+    # - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: prisma
+      MONGO_INITDB_ROOT_PASSWORD: prisma
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/var/lib/mongo
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/bitnami/redis/data
+volumes:
+  redis_data:
+  mongo:
