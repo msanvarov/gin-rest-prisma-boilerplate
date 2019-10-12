@@ -1,4 +1,4 @@
-.PHONY: release run install all dep clean dockerbuild dockerrun
+.PHONY: release run install all dep clean dockerbuild dockerrun dockertest
 
 OUT = ${GOPATH}/bin/gin-rest-prisma-boilerplate
 
@@ -26,3 +26,6 @@ dockerbuild:
 
 dockerrun:
 	docker run --rm grp-boilerplate
+
+dockertest:
+	docker build -t grp-boilerplate-test -f test.Dockerfile .
