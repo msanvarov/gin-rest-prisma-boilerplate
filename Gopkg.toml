@@ -26,8 +26,12 @@
 
 
 [[constraint]]
+  branch = "master"
+  name = "github.com/gin-gonic/contrib"
+
+[[constraint]]
   name = "github.com/gin-gonic/gin"
-  version = "1.4.0"
+  version = "~1.4.0"
 
 [[constraint]]
   name = "github.com/machinebox/graphql"
@@ -39,7 +43,11 @@
 
 [[constraint]]
   name = "github.com/spf13/viper"
-  version = "1.4.0"
+  version = "~1.4.0"
+
+[[constraint]]
+  name = "github.com/stretchr/testify"
+  version = "~1.4.0"
 
 [prune]
   go-tests = true

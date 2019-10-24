@@ -1,0 +1,10 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.13
+  working_directory: /go/src/github.com/msanvarov/gin-rest-prisma-boilerplate
+  steps:
+    - run:
+      name: Start Test Suite
+      command: go test -v ./tests/*
