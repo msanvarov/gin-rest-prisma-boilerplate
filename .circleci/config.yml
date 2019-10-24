@@ -7,7 +7,15 @@ jobs:
     working_directory: /go/src/github.com/msanvarov/gin-rest-prisma-boilerplate
     steps:
       - checkout
-      - run: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: Install Go Dependency Manager
+          command: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
       - run: docker-compose up -d
       - run: npm i -g prisma
       - run: prisma deploy
