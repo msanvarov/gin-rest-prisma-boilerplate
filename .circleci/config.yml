@@ -13,11 +13,7 @@ jobs:
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - setup_remote_docker
-      - run:
-          name: Install Go Dependency Manager
-          command: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
       - run: docker-compose up -d
       - run: npm i -g prisma
       - run: prisma deploy
-      - run: dep init
       - run: go test -v ./tests/*
