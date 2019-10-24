@@ -5,7 +5,7 @@
   
 Go is an open source programming language that makes it easy to build simple, reliable, and efficient software. Gin is a web framework written in Go (Golang).
 
-[![Travis](https://travis-ci.org/msanvarov/gin-rest-prisma-boilerplate.svg?branch=master)](https://travis-ci.org/msanvarov/gin-rest-prisma-boilerplate)
+[![CircleCI](https://circleci.com/gh/msanvarov/gin-rest-prisma-boilerplate.svg?style=svg)](https://circleci.com/gh/msanvarov/gin-rest-prisma-boilerplate)
 [![GoDoc](https://godoc.org/github.com/gin-gonic/gin?status.svg)](https://godoc.org/github.com/gin-gonic/gin)
 
 ### 📚 Description
@@ -36,8 +36,9 @@ This boilerplate is made to quickly prototype backend applications. It comes wit
 
 ### 🚀 Deployment
 
-- If needed, replace the existing config variables in the [config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file.  
-   - Please change the `server.env : "test"` to `server.env : "dev"` for better logging.
+- If needed, replace the existing config variables in the [config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file.
+
+  - Please change the `server.env : "test"` to `server.env : "dev"` for better logging.
 
 - Install project dependencies using `dep ensure`
 
