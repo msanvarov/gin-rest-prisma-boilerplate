@@ -2,6 +2,7 @@ version: 2
 jobs:
   build:
     docker:
+      - image: circleci/golang:1.13
       - image: circleci/node:lts
     working_directory: /go/src/github.com/msanvarov/gin-rest-prisma-boilerplate
     steps:
