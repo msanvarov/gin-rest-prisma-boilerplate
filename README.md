@@ -22,7 +22,7 @@ This boilerplate is made to quickly prototype backend applications. It comes wit
   
 - A detailed Prisma setup tutorial can be found [here](https://www.prisma.io/docs/get-started/01-setting-up-prisma-existing-database-GO-g003/).  
 
-- Redis configuration can be found in the [configuration yaml file](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml#L10)
+- Redis configuration can be found in the [configuration yaml file](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml#L10-L14)
 
 **Note: Docker Desktop comes free on both Mac and Windows, but it only works with Windows 10 Pro. A workaround is to get  [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/)  which will bypass the Windows 10 Pro prerequisite by executing in a VM.**
   
