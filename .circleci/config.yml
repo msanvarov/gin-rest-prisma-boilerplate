@@ -6,6 +6,7 @@ jobs:
       - image: circleci/node:10.16.3
     working_directory: /go/src/github.com/msanvarov/gin-rest-prisma-boilerplate
     steps:
+      - checkout
       - run: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
       - run: docker-compose up -d
       - run: npm i -g prisma
