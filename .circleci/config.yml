@@ -17,5 +17,5 @@ jobs:
       - run: |
           curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
           sudo apt-get install -y nodejs
-      - run: npm i -g prisma && cd prisma && prisma deploy
+      - run: sudo npm i -g prisma && cd prisma && prisma deploy
       - run: go test -v ./tests/*
