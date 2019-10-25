@@ -13,9 +13,4 @@ jobs:
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - setup_remote_docker
-      - run: docker-compose up -d
-      - run: |
-          curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-          sudo apt-get install -y nodejs
-      - run: sudo npm i -g prisma && cd prisma && prisma deploy
-      - run: go test -v ./tests/*
+      - run: make dockerrun
