@@ -1,0 +1,19 @@
+language: go
+go:
+  - master
+
+services:
+  - docker
+
+dist: trusty
+
+matrix:
+  allow_failures:
+    - go: master
+  fast_finish: true
+
+install:
+  - "docker-compose -f docker-compose.override.yml up -d"
+  - "go mod download"
+script:
+  - go test -v ./tests/*
