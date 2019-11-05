@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
+	
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/config"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/router"
-	"log"
 )
 
 func main() {

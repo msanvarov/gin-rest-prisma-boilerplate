@@ -1,14 +1,16 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"log"
 	"sync"
+
+	"github.com/spf13/viper"
 )
 
 var (
 	once sync.Once
-	yaml *viper.Viper)
+	yaml *viper.Viper
+)
 
 func Configuration(env string) *viper.Viper {
 	once.Do(func() {

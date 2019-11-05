@@ -1,8 +1,9 @@
 package db
 
 import (
-	"github.com/msanvarov/gin-rest-prisma-boilerplate/prisma-client"
 	"sync"
+
+	"github.com/msanvarov/gin-rest-prisma-boilerplate/prisma-client"
 )
 
 var (

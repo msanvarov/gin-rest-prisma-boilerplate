@@ -5,15 +5,16 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/config"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/db"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/forms"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/prisma-client"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/router"
 	"github.com/stretchr/testify/assert"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 )
 
 var (

@@ -1,10 +1,11 @@
 package utils
 
 import (
+	"net/http"
+
 	"github.com/casbin/casbin"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type IBasicAuthorizer interface {
@@ -12,6 +13,7 @@ type IBasicAuthorizer interface {
 	CheckPermission(c *gin.Context) bool
 	RequirePermission(c *gin.Context)
 }
+
 // BasicAuthorizer stores the casbin enforcer
 type BasicAuthorizer struct {
 	Enforcer *casbin.Enforcer
@@ -41,4 +43,3 @@ func (a *BasicAuthorizer) CheckPermission(c *gin.Context) bool {
 func (BasicAuthorizer) RequirePermission(c *gin.Context) {
 	c.AbortWithStatus(http.StatusForbidden)
 }
-
