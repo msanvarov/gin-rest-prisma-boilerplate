@@ -13,6 +13,6 @@ jobs:
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - setup_remote_docker
-      - run: docker-compose -f docker-compose.override.yml up
+      - run: docker-compose -f docker-compose.override.yml up -d
       - run: go mod download
       - run: go test -v ./tests/*
