@@ -1,56 +1,65 @@
 package router
 
 import (
-	"github.com/gin-gonic/contrib/sessions"
+	"log"
+	"os"
+	"time"
+
+	"github.com/casbin/casbin"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/controllers"
+	"github.com/msanvarov/gin-rest-prisma-boilerplate/utils"
 	"github.com/spf13/viper"
-	"log"
-	"net/http"
 )
 
 func Router(config *viper.Viper) *gin.Engine {
 	// default gin configuration
 	router := gin.Default()
 
-	env := config.GetString("server.env")
-	if env == "prod" {
+	switch config.GetString("server.env") {
+	case "prod":
 		gin.SetMode(gin.ReleaseMode)
-	} else if env == "test" {
+	case "test":
 		gin.SetMode(gin.TestMode)
-	} else {
+	default:
 		gin.SetMode(gin.DebugMode)
 	}
 
-	// session with redis
-	store, storeError := sessions.NewRedisStore(config.GetInt("redis.idle_connections"),
-		config.GetString("redis.network_type"), config.GetString("redis.address"),
-		config.GetString("redis.password"), []byte(config.GetString("redis.secret_key")))
+	var redisAddress string
 
-	if storeError != nil {
-		log.Fatal(storeError)
+	if redisEnvAddress := os.Getenv("REDIS_CONNECTION"); redisEnvAddress != "" {
+		redisAddress = redisEnvAddress
+	} else {
+		redisAddress = config.GetString("redis.address")
 	}
 
-	router.Use(sessions.Sessions(config.GetString("session.name"), store))
+	// session with redis
+	for {
+		if store, redisErr := redis.NewStore(config.GetInt("redis.idle_connections"),
+			config.GetString("redis.network_type"), redisAddress,
+			config.GetString("redis.password"), []byte(config.GetString("redis.secret_key"))); redisErr != nil {
+			log.Print(redisErr)
+			time.Sleep(20 * time.Second)
+			continue
+		} else {
+			router.Use(sessions.Sessions(config.GetString("session.name"), store))
+			break
+		}
+	}
+
+	// casbin
+	enforcer := casbin.NewEnforcer("../model.conf", "../policy.csv")
+	router.Use(func(c *gin.Context) {
+		authorizer := &utils.BasicAuthorizer{Enforcer: enforcer}
+		if !authorizer.CheckPermission(c) {
+			authorizer.RequirePermission(c)
+		}
+	})
 
 	// controllers
 	authController := new(controllers.AuthenticationController)
-
-	// custom middleware
-	router.Use(func(c *gin.Context) {
-
-		// setting cors headers for integration with front end frameworks like angular/react/vue
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With, Api-Key")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
-
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(http.StatusNoContent)
-			return
-		}
-		c.Next()
-	})
 
 	api := router.Group("api/v1")
 	{

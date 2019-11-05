@@ -1,0 +1,5 @@
+p, ADMIN, /*, (GET|POST|PUT|DELETE)
+p, DEFAULT, /api/v1/*, (GET|POST|PUT|DELETE)
+p, ANON, /api/v1/login, POST
+p, ANON, /api/v1/register, POST
+p, ANON, /api/spec/*, (GET|POST|PUT|PATCH|DELETE)

@@ -68,7 +68,7 @@ func (client *Client) User(params UserWhereUniqueInput) *UserExec {
 		params,
 		[2]string{"UserWhereUniqueInput!", "User"},
 		"user",
-		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
+		[]string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -102,7 +102,7 @@ func (client *Client) Users(params *UsersParams) *UserExecArray {
 		wparams,
 		[3]string{"UserWhereInput", "UserOrderByInput", "User"},
 		"users",
-		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
+		[]string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"})
 
 	return &UserExecArray{ret}
 }
@@ -115,6 +115,25 @@ type UsersConnectionParams struct {
 	Before  *string           `json:"before,omitempty"`
 	First   *int32            `json:"first,omitempty"`
 	Last    *int32            `json:"last,omitempty"`
+}
+
+// Nodes return just nodes without cursors. It uses the already fetched edges.
+func (s *UserConnection) Nodes() []User {
+	var nodes []User
+	for _, edge := range s.Edges {
+		nodes = append(nodes, edge.Node)
+	}
+	return nodes
+}
+
+// Nodes return just nodes without cursors, but as a slice of pointers. It uses the already fetched edges.
+func (s *UserConnection) NodesPtr() []*User {
+	var nodes []*User
+	for _, edge := range s.Edges {
+		item := edge
+		nodes = append(nodes, &item.Node)
+	}
+	return nodes
 }
 
 func (client *Client) UsersConnection(params *UsersConnectionParams) *UserConnectionExec {
@@ -146,7 +165,7 @@ func (client *Client) CreateUser(params UserCreateInput) *UserExec {
 		params,
 		[2]string{"UserCreateInput!", "User"},
 		"createUser",
-		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
+		[]string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -164,7 +183,7 @@ func (client *Client) UpdateUser(params UserUpdateParams) *UserExec {
 		},
 		[3]string{"UserUpdateInput!", "UserWhereUniqueInput!", "User"},
 		"updateUser",
-		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
+		[]string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -201,7 +220,7 @@ func (client *Client) UpsertUser(params UserUpsertParams) *UserExec {
 		uparams,
 		[4]string{"UserWhereUniqueInput!", "UserCreateInput!", "UserUpdateInput!", "User"},
 		"upsertUser",
-		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
+		[]string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -211,7 +230,7 @@ func (client *Client) DeleteUser(params UserWhereUniqueInput) *UserExec {
 		params,
 		[2]string{"UserWhereUniqueInput!", "User"},
 		"deleteUser",
-		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
+		[]string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -221,23 +240,34 @@ func (client *Client) DeleteManyUsers(params *UserWhereInput) *BatchPayloadExec 
 	return &BatchPayloadExec{exec}
 }
 
+type Role string
+
+const (
+	RoleAnon    Role = "ANON"
+	RoleString  Role = "String"
+	RoleAdmin   Role = "ADMIN"
+	RoleDefault Role = "DEFAULT"
+)
+
 type UserOrderByInput string
 
 const (
-	UserOrderByInputIDAsc            UserOrderByInput = "id_ASC"
-	UserOrderByInputIDDesc           UserOrderByInput = "id_DESC"
-	UserOrderByInputNameAsc          UserOrderByInput = "name_ASC"
-	UserOrderByInputNameDesc         UserOrderByInput = "name_DESC"
-	UserOrderByInputUsernameAsc      UserOrderByInput = "username_ASC"
-	UserOrderByInputUsernameDesc     UserOrderByInput = "username_DESC"
-	UserOrderByInputEmailAsc         UserOrderByInput = "email_ASC"
-	UserOrderByInputEmailDesc        UserOrderByInput = "email_DESC"
-	UserOrderByInputPasswordAsc      UserOrderByInput = "password_ASC"
-	UserOrderByInputPasswordDesc     UserOrderByInput = "password_DESC"
-	UserOrderByInputRegisteredAtAsc  UserOrderByInput = "registeredAt_ASC"
-	UserOrderByInputRegisteredAtDesc UserOrderByInput = "registeredAt_DESC"
-	UserOrderByInputUpdatedAtAsc     UserOrderByInput = "updatedAt_ASC"
-	UserOrderByInputUpdatedAtDesc    UserOrderByInput = "updatedAt_DESC"
+	UserOrderByInputIDAsc         UserOrderByInput = "id_ASC"
+	UserOrderByInputIDDesc        UserOrderByInput = "id_DESC"
+	UserOrderByInputNameAsc       UserOrderByInput = "name_ASC"
+	UserOrderByInputNameDesc      UserOrderByInput = "name_DESC"
+	UserOrderByInputUsernameAsc   UserOrderByInput = "username_ASC"
+	UserOrderByInputUsernameDesc  UserOrderByInput = "username_DESC"
+	UserOrderByInputEmailAsc      UserOrderByInput = "email_ASC"
+	UserOrderByInputEmailDesc     UserOrderByInput = "email_DESC"
+	UserOrderByInputPasswordAsc   UserOrderByInput = "password_ASC"
+	UserOrderByInputPasswordDesc  UserOrderByInput = "password_DESC"
+	UserOrderByInputRoleAsc       UserOrderByInput = "role_ASC"
+	UserOrderByInputRoleDesc      UserOrderByInput = "role_DESC"
+	UserOrderByInputCreatedAtAsc  UserOrderByInput = "createdAt_ASC"
+	UserOrderByInputCreatedAtDesc UserOrderByInput = "createdAt_DESC"
+	UserOrderByInputUpdatedAtAsc  UserOrderByInput = "updatedAt_ASC"
+	UserOrderByInputUpdatedAtDesc UserOrderByInput = "updatedAt_DESC"
 )
 
 type MutationType string
@@ -324,14 +354,18 @@ type UserWhereInput struct {
 	PasswordNotStartsWith *string          `json:"password_not_starts_with,omitempty"`
 	PasswordEndsWith      *string          `json:"password_ends_with,omitempty"`
 	PasswordNotEndsWith   *string          `json:"password_not_ends_with,omitempty"`
-	RegisteredAt          *string          `json:"registeredAt,omitempty"`
-	RegisteredAtNot       *string          `json:"registeredAt_not,omitempty"`
-	RegisteredAtIn        []string         `json:"registeredAt_in,omitempty"`
-	RegisteredAtNotIn     []string         `json:"registeredAt_not_in,omitempty"`
-	RegisteredAtLt        *string          `json:"registeredAt_lt,omitempty"`
-	RegisteredAtLte       *string          `json:"registeredAt_lte,omitempty"`
-	RegisteredAtGt        *string          `json:"registeredAt_gt,omitempty"`
-	RegisteredAtGte       *string          `json:"registeredAt_gte,omitempty"`
+	Role                  *Role            `json:"role,omitempty"`
+	RoleNot               *Role            `json:"role_not,omitempty"`
+	RoleIn                []Role           `json:"role_in,omitempty"`
+	RoleNotIn             []Role           `json:"role_not_in,omitempty"`
+	CreatedAt             *string          `json:"createdAt,omitempty"`
+	CreatedAtNot          *string          `json:"createdAt_not,omitempty"`
+	CreatedAtIn           []string         `json:"createdAt_in,omitempty"`
+	CreatedAtNotIn        []string         `json:"createdAt_not_in,omitempty"`
+	CreatedAtLt           *string          `json:"createdAt_lt,omitempty"`
+	CreatedAtLte          *string          `json:"createdAt_lte,omitempty"`
+	CreatedAtGt           *string          `json:"createdAt_gt,omitempty"`
+	CreatedAtGte          *string          `json:"createdAt_gte,omitempty"`
 	UpdatedAt             *string          `json:"updatedAt,omitempty"`
 	UpdatedAtNot          *string          `json:"updatedAt_not,omitempty"`
 	UpdatedAtIn           []string         `json:"updatedAt_in,omitempty"`
@@ -349,6 +383,7 @@ type UserCreateInput struct {
 	Username string  `json:"username"`
 	Email    string  `json:"email"`
 	Password string  `json:"password"`
+	Role     Role    `json:"role"`
 }
 
 type UserUpdateInput struct {
@@ -356,6 +391,7 @@ type UserUpdateInput struct {
 	Username *string `json:"username,omitempty"`
 	Email    *string `json:"email,omitempty"`
 	Password *string `json:"password,omitempty"`
+	Role     *Role   `json:"role,omitempty"`
 }
 
 type UserUpdateManyMutationInput struct {
@@ -363,6 +399,7 @@ type UserUpdateManyMutationInput struct {
 	Username *string `json:"username,omitempty"`
 	Email    *string `json:"email,omitempty"`
 	Password *string `json:"password,omitempty"`
+	Role     *Role   `json:"role,omitempty"`
 }
 
 type UserSubscriptionWhereInput struct {
@@ -404,14 +441,17 @@ func (instance UserExecArray) Exec(ctx context.Context) ([]User, error) {
 	return v, err
 }
 
+var UserFields = []string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"}
+
 type User struct {
-	ID           string `json:"id"`
-	Name         string `json:"name"`
-	Username     string `json:"username"`
-	Email        string `json:"email"`
-	Password     string `json:"password"`
-	RegisteredAt string `json:"registeredAt"`
-	UpdatedAt    string `json:"updatedAt"`
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	Username  string `json:"username"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
+	Role      Role   `json:"role"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
 }
 
 type UserConnectionExec struct {
@@ -437,12 +477,12 @@ func (instance *UserConnectionExec) Edges() *UserEdgeExecArray {
 		"edges",
 		[]string{"cursor"})
 
-	nodes := edges.Client.GetMany(
+	nodes := edges.Client.GetOne(
 		edges,
 		nil,
-		[3]string{"", "", "User"},
+		[2]string{"", "User"},
 		"node",
-		[]string{"id", "createdAt", "updatedAt", "name", "desc"})
+		UserFields)
 
 	return &UserEdgeExecArray{nodes}
 }
@@ -461,15 +501,20 @@ func (instance *UserConnectionExec) Aggregate(ctx context.Context) (*Aggregate, 
 }
 
 func (instance UserConnectionExec) Exec(ctx context.Context) (*UserConnection, error) {
-	var v UserConnection
-	ok, err := instance.exec.Exec(ctx, &v)
+	edges, err := instance.Edges().Exec(ctx)
 	if err != nil {
 		return nil, err
 	}
-	if !ok {
-		return nil, ErrNoResult
+
+	pageInfo, err := instance.PageInfo().Exec(ctx)
+	if err != nil {
+		return nil, err
 	}
-	return &v, nil
+
+	return &UserConnection{
+		Edges:    edges,
+		PageInfo: *pageInfo,
+	}, nil
 }
 
 func (instance UserConnectionExec) Exists(ctx context.Context) (bool, error) {
@@ -485,6 +530,8 @@ func (instance UserConnectionExecArray) Exec(ctx context.Context) ([]UserConnect
 	err := instance.exec.ExecArray(ctx, &v)
 	return v, err
 }
+
+var UserConnectionFields = []string{}
 
 type UserConnection struct {
 	PageInfo PageInfo   `json:"pageInfo"`
@@ -521,6 +568,8 @@ func (instance PageInfoExecArray) Exec(ctx context.Context) ([]PageInfo, error) 
 	return v, err
 }
 
+var PageInfoFields = []string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"}
+
 type PageInfo struct {
 	HasNextPage     bool    `json:"hasNextPage"`
 	HasPreviousPage bool    `json:"hasPreviousPage"`
@@ -538,7 +587,7 @@ func (instance *UserEdgeExec) Node() *UserExec {
 		nil,
 		[2]string{"", "User"},
 		"node",
-		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
+		[]string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -569,6 +618,8 @@ func (instance UserEdgeExecArray) Exec(ctx context.Context) ([]UserEdge, error) 
 	return v, err
 }
 
+var UserEdgeFields = []string{"cursor"}
+
 type UserEdge struct {
 	Node   User   `json:"node"`
 	Cursor string `json:"cursor"`
@@ -584,7 +635,7 @@ func (instance *UserSubscriptionPayloadExec) Node() *UserExec {
 		nil,
 		[2]string{"", "User"},
 		"node",
-		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
+		[]string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"})
 
 	return &UserExec{ret}
 }
@@ -595,7 +646,7 @@ func (instance *UserSubscriptionPayloadExec) PreviousValues() *UserPreviousValue
 		nil,
 		[2]string{"", "UserPreviousValues"},
 		"previousValues",
-		[]string{"id", "name", "username", "email", "password", "registeredAt", "updatedAt"})
+		[]string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"})
 
 	return &UserPreviousValuesExec{ret}
 }
@@ -625,6 +676,8 @@ func (instance UserSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]Us
 	err := instance.exec.ExecArray(ctx, &v)
 	return v, err
 }
+
+var UserSubscriptionPayloadFields = []string{"mutation", "updatedFields"}
 
 type UserSubscriptionPayload struct {
 	Mutation      MutationType `json:"mutation"`
@@ -662,12 +715,15 @@ func (instance UserPreviousValuesExecArray) Exec(ctx context.Context) ([]UserPre
 	return v, err
 }
 
+var UserPreviousValuesFields = []string{"id", "name", "username", "email", "password", "role", "createdAt", "updatedAt"}
+
 type UserPreviousValues struct {
-	ID           string `json:"id"`
-	Name         string `json:"name"`
-	Username     string `json:"username"`
-	Email        string `json:"email"`
-	Password     string `json:"password"`
-	RegisteredAt string `json:"registeredAt"`
-	UpdatedAt    string `json:"updatedAt"`
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	Username  string `json:"username"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
+	Role      Role   `json:"role"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
 }
