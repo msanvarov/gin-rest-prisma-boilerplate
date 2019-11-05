@@ -2,8 +2,9 @@ package controllers
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"github.com/gin-gonic/contrib/sessions"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/db"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/forms"
@@ -12,6 +13,13 @@ import (
 	"log"
 	"net/http"
 )
+
+type IAuthenticationController interface {
+	GetSessionData(c *gin.Context)
+	Register(c *gin.Context)
+	Login(c *gin.Context)
+	Logout(c *gin.Context)
+}
 
 type AuthenticationController struct{}
 
@@ -27,89 +35,82 @@ func (AuthenticationController) GetSessionData(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"uuid": uuid, "username": session.Get("username"),
 			"email": session.Get("email")})
 	} else {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Failed to fetch session data. Make sure to be logged on."})
-		c.Abort()
-		return
+		utils.CreateError(c, http.StatusBadRequest,
+			errors.New("Failed to fetch session data. Make sure to be logged in."))
 	}
 }
 
 func (AuthenticationController) Register(c *gin.Context) {
 	var registrationPayload forms.RegistrationForm
 	if validationErr := c.BindJSON(&registrationPayload); validationErr != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"operation": "Tried to bind request body to expected JSON fields.",
-			"error": validationErr.Error(), "status": http.StatusBadRequest})
-		c.Abort()
+		utils.CreateError(c, http.StatusBadRequest, validationErr)
 		return
 	}
 	if hashedPass, hashErr := utils.EncryptPassword(registrationPayload.Password); hashErr != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"operation": "Tried to hash payload password.",
-			"error": hashErr.Error(), "status": http.StatusInternalServerError})
-		c.Abort()
-		return
+		utils.CreateError(c, http.StatusInternalServerError, errors.New("Failed to hash password."))
 	} else {
 		registrationPayload.Password = hashedPass
-	}
+		user, prismaErr := client.CreateUser(prisma.UserCreateInput{
+			Email:    registrationPayload.Email,
+			Name:     registrationPayload.Name,
+			Username: registrationPayload.Username,
+			Password: registrationPayload.Password,
+			Role:     prisma.RoleDefault,
+		}).Exec(contextB)
 
-	user, prismaError := client.CreateUser(prisma.UserCreateInput{
-		Email:    registrationPayload.Email,
-		Name:     registrationPayload.Name,
-		Username: registrationPayload.Username,
-		Password: registrationPayload.Password,
-	}, ).Exec(contextB)
+		if prismaErr != nil {
+			log.Print(prismaErr)
+			utils.CreateError(c, http.StatusNotAcceptable, errors.New("Failed to save profile."))
+			return
+		}
+		// setting session keys
+		session := sessions.Default(c)
+		session.Set("uuid", user.ID)
+		session.Set("email", user.Email)
+		session.Set("username", user.Username)
+		session.Set("role", string(user.Role))
 
-	if prismaError != nil {
-		log.Println(prismaError)
-		c.JSON(http.StatusNotAcceptable, gin.H{"message":
-		"Failed to create the account. Please try another username."})
-		c.Abort()
-		return
+		if sessionErr := session.Save(); sessionErr != nil {
+			utils.CreateError(c, http.StatusInternalServerError, sessionErr)
+			c.Abort()
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"name":     user.Name,
+			"username": user.Username,
+			"role":     user.Role,
+		})
 	}
-	// setting session keys
-	session := sessions.Default(c)
-	session.Set("uuid", user.ID)
-	session.Set("email", user.Email)
-	session.Set("username", user.Username)
-
-	if sessionError := session.Save(); sessionError != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message":
-		"Failed to set session keys. Please try to register again."})
-		c.Abort()
-		log.Println(sessionError)
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Registered.",
-		"user":    user,
-	})
 }
 
 func (AuthenticationController) Login(c *gin.Context) {
 	var loginPayload forms.LoginForm
 	if validationErr := c.BindJSON(&loginPayload); validationErr != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"operation": "Tried to bind request body to expected JSON fields.",
-			"error": validationErr.Error(), "status": http.StatusBadRequest})
-		c.Abort()
+		utils.CreateError(c, http.StatusBadRequest, validationErr)
 		return
 	}
 
 	if user, err := client.User(
 		prisma.UserWhereUniqueInput{Username: &loginPayload.Username}).Exec(contextB); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message":
-		fmt.Sprintf("The profile with the username: %s doesn't exist. Please register before trying to login.",
-			loginPayload.Username)})
 		log.Println(err)
+		utils.CreateError(c, http.StatusBadRequest, errors.New(
+			fmt.Sprintf(
+				"The profile with the username: %s doesn't exist. Please register before trying to login.",
+				loginPayload.Username)))
 	} else {
 		if passwordMatch := utils.CheckPassword(loginPayload.Password, user.Password); passwordMatch != true {
-			c.JSON(http.StatusNotAcceptable, gin.H{"message": "Invalid password details. Please try again."})
+			utils.CreateError(c, http.StatusNotAcceptable, errors.New("Invalid password details. Please try again."))
 		} else {
 			// setting session keys
 			session := sessions.Default(c)
 			session.Set("uuid", user.ID)
 			session.Set("email", user.Email)
 			session.Set("username", user.Name)
-			if sessionError := session.Save(); sessionError != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to logout. Please try again."})
+			session.Set("role", string(user.Role))
+			if sessionErr := session.Save(); sessionErr != nil {
+				utils.CreateError(c, http.StatusInternalServerError, sessionErr)
 				c.Abort()
-				log.Println(sessionError)
+				return
 			}
 			c.JSON(http.StatusOK, gin.H{
 				"message": "Logged in.",
@@ -122,10 +123,11 @@ func (AuthenticationController) Login(c *gin.Context) {
 func (AuthenticationController) Logout(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()
-	if sessionError := session.Save(); sessionError != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to logout. Please try again."})
+	if sessionErr := session.Save(); sessionErr != nil {
+		log.Print(sessionErr)
+		utils.CreateError(c, http.StatusInternalServerError, errors.New("Failed to logout."))
 		c.Abort()
-		log.Println(sessionError)
+		return
 	} else {
 		c.JSON(http.StatusOK, gin.H{"message": "Logged out..."})
 	}
