@@ -1,6 +1,9 @@
-language: go
+language: go node_js
 go:
   - master
+
+node_js:
+  - "stable"
 
 services:
   - docker
@@ -13,7 +16,10 @@ matrix:
   fast_finish: true
 
 install:
-  - "docker-compose -f docker-compose.override.yml up -d"
-  - "go mod download"
+  - docker-compose -f docker-compose.override.yml up -d
+  - npm i -g prisma
+  - prisma deploy
+  - go mod download
+
 script:
   - go test -v ./tests/*
