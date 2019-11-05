@@ -3,14 +3,14 @@
   <a href="https://gin-gonic.com/" target="blank"><img src="https://raw.githubusercontent.com/gin-gonic/logo/master/color.png" width="200" alt="Nest Logo" /></a>  
 </p>  
   
-Go is an open source programming language that makes it easy to build simple, reliable, and efficient software. Gin is a web framework written in Go (Golang).
+Go is an open source programming language that makes it easy to build simple, reliable, and efficient software. Gin is a web framework for Go.
 
-[![CircleCI](https://circleci.com/gh/msanvarov/gin-rest-prisma-boilerplate.svg?style=svg)](https://circleci.com/gh/msanvarov/gin-rest-prisma-boilerplate)
 [![GoDoc](https://godoc.org/github.com/gin-gonic/gin?status.svg)](https://godoc.org/github.com/gin-gonic/gin)
+[![CircleCI](https://circleci.com/gh/msanvarov/gin-rest-prisma-boilerplate.svg?style=svg)](https://circleci.com/gh/msanvarov/gin-rest-prisma-boilerplate)
 
 ### 📚 Description
 
-This boilerplate is made to quickly prototype backend applications. It comes with database, logging, security, and authentication features out of the box.
+This boilerplate is made to leverage the Gin framework and quickly prototype backend applications. It comes with database, logging, security, and authentication features out of the box.
 
 ---
 
@@ -20,48 +20,54 @@ This boilerplate is made to quickly prototype backend applications. It comes wit
 
 - Please make sure to have docker desktop setup on any preferred operating system to quickly compose the required dependencies. Then follow the docker procedure outlined below.
 
-- A detailed Prisma setup tutorial can be found [here](https://www.prisma.io/docs/get-started/01-setting-up-prisma-existing-database-GO-g003/).
+- For getting familiar with Prisma. A detailed Prisma setup tutorial can be found [here](https://www.prisma.io/docs/get-started/01-setting-up-prisma-new-database-GO-g002/).
 
-- Redis configuration can be found in the [configuration yaml file](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml#L10-L14)
+- Redis configuration can be found in the [configuration yaml file](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml#L10-L14).
 
-**Note: Docker Desktop comes free on both Mac and Windows, but it only works with Windows 10 Pro. A workaround is to get [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/) which will bypass the Windows 10 Pro prerequisite by executing in a VM.**
-
-### Dep 📦
-
-- Dep is a package manager for Go. It aids in managing packages for any golang application. To get dep, please type in the following command: `$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh`
-
-**Note: If on Windows, please use Git Bash or WSL where curl is included by default.**
+**Note: Docker Desktop comes free on both Mac and Windows, but when on Windows, it only supports Windows 10 Pro. A workaround is to get [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/) which will bypass the Windows 10 Pro prerequisite by executing Docker in a VM.**
 
 ---
 
 ### 🚀 Deployment
 
-- If needed, replace the existing config variables in the [config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file.
+- If required, replace the existing config variables in the [config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file with preferred configuration settings.
 
-  - Please change the `server.env : "test"` to `server.env : "dev"` for better logging.
+  - Changing the `server.env : "test"` to `server.env : "dev"` yields better logging.
 
-- Install project dependencies using `dep ensure`
+### 🐳 Developing Inside Docker
 
-- Execute the following commands in-app directory:
+To be used when developing the web application inside of docker.
+
+- Execute one of the following commands to run everything in docker:
 
 ```bash
-# creates and loads the docker container with required configuration
+# runs in detached mode
 $ docker-compose up -d
-# starts the prisma server
-$ cd prisma && prisma deploy
+# without detaching
+$ docker-compse up
 ```
 
-**Note: Please make sure prisma, redis, and mongo are deployed and running on localhost before starting the web server.**
+- The following command will set up the project for you (creating the Docker containers, and starting the web application).  
+  The web application and Prisma will then be exposed to http://localhost:9000 and http://localhost:4466 respectively.
 
-- The following command will set up the project for you (building the Docker images, starting the web stack).  
-  The web application and Prisma will be exposed to http://localhost:9000 and http://localhost:4466 respectively.
+### 🐳 Developing Outside of Docker
 
-- Since all the dependency are up and running by now, all is left is to start the gin web server by typing in the following command:
-  `go run main.go`
+To be used when developing the web application outside of Docker. The dependencies like Prisma, Mongo, and Redis will still require Docker but the web application itself doesn't and thus can be developed without running inside a container.
+
+- Execute one of the following commands to run the dependencies in Docker:
+
+```bash
+# runs in detached mode
+$ docker-compose -f docker-compose.override.yml up -d
+# without detaching
+$ docker-compose -f docker-compose.override.yml up up
+```
+
+---
 
 ### 🔒 Environment Configuration
 
-By default, the application comes with a config module that can read every configuration variable from the `config` yaml file.
+By default, the application leverages [viper](https://github.com/spf13/viper) module that can read every configuration variable from the [`config`](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) yaml file.
 
 **server.env** - the application environment it will be executing as, either in development, production, or testing. Options: `dev`, `test`, or `prod`.
 
@@ -81,24 +87,42 @@ By default, the application comes with a config module that can read every confi
 
 ---
 
+## Choosing between Dep and Go Modules
+
+**There is an option to choose betweeen Dep or Go modules as the preferred package manager for Golang. By default, Go modules are utilized for their dependency management.**
+
+### To use Dep over Go Modules:
+
+#### Dep 📦
+
+- Dep is a package manager for Go. It aids in managing packages for any golang application. To get dep, please type in the following command:
+
+  `$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh`
+
+**Note: If on Windows, please use Git Bash or WSL where curl is included by default.**
+
+**Simply remove the `go.mod` and `go.sum` files, and run `dep ensure`.**
+
+---
+
 ### ❓Why both Redis and Mongo?
 
-The philosophy behind making the session management, Redis based, instead of Mongo based, came down to understanding that constant reads and writes to a database for cookie management were redundant. The focus was to leave the persistent data in Mongo and less important session-based data in Redis.
+The design behind making the session management, Redis based, instead of Mongo based, came down to understanding that constant reads and writes to a database for cookie management were redundant. The focus was to leave the persistent data in Mongo and less important session-based data in Redis. Not to mention the performance benefits that Redis provides over Mongo based queries.
+
+[Article comparing both Redis and Mongo](https://scalegrid.io/blog/comparing-in-memory-databases-redis-vs-mongodb-percona-memory-engine/).
 
 ---
 
 ### ✅ Testing
 
+Testing can be happen both in Docker or outside of Docker. Please see the commands below to perform these integration tests:
+
 ```bash
-# integration tests
+# non-docker execution
 $ go test -v ./tests/*
+# docker execution
+$ docker exec -it gin-rest-prisma-boilerplate_app_1 go test -v ./tests/*
 ```
-
----
-
-### 👥 Support
-
-Gin can grow thanks to the sponsors and support by backers. If you'd like to join them, please [read more here](https://github.com/gin-gonic/gin).
 
 ---
 
