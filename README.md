@@ -6,7 +6,7 @@
 Go is an open source programming language that makes it easy to build simple, reliable, and efficient software. Gin is a web framework for Go.
 
 [![GoDoc](https://godoc.org/github.com/gin-gonic/gin?status.svg)](https://godoc.org/github.com/gin-gonic/gin)
-[![CircleCI](https://circleci.com/gh/msanvarov/gin-rest-prisma-boilerplate.svg?style=svg)](https://circleci.com/gh/msanvarov/gin-rest-prisma-boilerplate)
+[![Build Status](https://travis-ci.org/msanvarov/gin-rest-prisma-boilerplate.svg?branch=master)](https://travis-ci.org/msanvarov/gin-rest-prisma-boilerplate)
 
 ### 📚 Description
 
