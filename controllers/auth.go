@@ -4,14 +4,15 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/db"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/forms"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/prisma-client"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/utils"
-	"log"
-	"net/http"
 )
 
 type IAuthenticationController interface {
@@ -23,7 +24,7 @@ type IAuthenticationController interface {
 
 type AuthenticationController struct{}
 
-var (ß
+var (
 	client   = db.DB()
 	contextB = context.Background()
 )
