@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 	"time"
+	"path/filepath"
+	"runtime"
 
 	"github.com/casbin/casbin"
 	"github.com/gin-contrib/sessions"
@@ -12,6 +14,12 @@ import (
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/controllers"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/utils"
 	"github.com/spf13/viper"
+)
+
+
+var (
+    _, b, _, _ = runtime.Caller(0)
+    basepath   = filepath.Dir(b)
 )
 
 func Router(config *viper.Viper) *gin.Engine {
@@ -50,7 +58,7 @@ func Router(config *viper.Viper) *gin.Engine {
 	}
 
 	// casbin
-	enforcer := casbin.NewEnforcer("../model.conf", "../policy.csv")
+	enforcer := casbin.NewEnforcer(basepath+"/../model.conf", basepath+"/../policy.csv")
 	router.Use(func(c *gin.Context) {
 		authorizer := &utils.BasicAuthorizer{Enforcer: enforcer}
 		if !authorizer.CheckPermission(c) {
