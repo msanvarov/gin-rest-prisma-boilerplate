@@ -93,17 +93,15 @@ By default, the application leverages the [viper](https://github.com/spf13/viper
 
 **There is an option to choose between Dep or Go modules as the preferred package manager for Golang. By default, Go modules are utilized for their dependency management.**
 
-### To use Dep over Go Modules:
-
-#### Dep 📦
+### 📦Dep over Go Modules:
 
 - Dep is a package manager for Go. It aids in managing packages for any Go application. To get dep, please type in the following command:
 
   `$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh`
 
-**Note: If on Windows, please use Git Bash or WSL where curl is included by default.**
+- Removing Go Module relateed files involves simply deleting the `go.mod` and `go.sum` files, and run `dep ensure` to verify vendor files are in order.
 
-**Simply remove the `go.mod` and `go.sum` files, and run `dep ensure`.**
+**Note: If on Windows, please use Git Bash or WSL where curl is included by default.**
 
 ---
 
