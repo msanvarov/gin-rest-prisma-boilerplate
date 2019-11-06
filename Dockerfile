@@ -20,11 +20,20 @@ COPY . .
 ENV GOOS linux
 ENV GOARCH amd64
 
+# Node PPA
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
+
+# Node 
+RUN apt-get install nodejs
+
+# Prisma CLI
+RUN npm i -g prisma
+
 # Building the Go app
 RUN go build -v -o app .
 
 # Expose default port 9000
 EXPOSE 9000
 
-# Run the binary
+# Starting the server
 CMD  [ "./app" ]

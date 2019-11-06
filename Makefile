@@ -1,4 +1,4 @@
-.PHONY: build clean test
+.PHONY: build clean test docker-run
 
 OUT = ${GOPATH}/bin/gin-rest-prisma-boilerplate
 
@@ -10,3 +10,6 @@ clean:
 
 test:
 	go test -v ./tests/*
+
+docker-run:
+	docker-compose up && docker exec -it "cd prisma; prisma deploy"
