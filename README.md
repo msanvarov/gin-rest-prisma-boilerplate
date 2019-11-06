@@ -89,11 +89,11 @@ By default, the application leverages the [viper](https://github.com/spf13/viper
 
 ---
 
-## 🏗️ Choosing between Dep and Go Modules
+### 🏗️ Choosing between Dep and Go Modules
 
 **There is an option to choose between Dep or Go modules as the preferred package manager for Golang. By default, Go modules are utilized for their dependency management.**
 
-### 📦Dep over Go Modules:
+#### 📦 Dep over Go Modules:
 
 - Dep is a package manager for Go. It aids in managing packages for any Go application. To get dep, please type in the following command:
 
