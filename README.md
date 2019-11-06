@@ -52,7 +52,7 @@ $ docker-compose up
 
 **Please beware, each time a change to the code occurs, the container must be rebuilt.**
 
-#### 🐳 Developing Outside of Docker
+#### 🏡 Developing Outside of Docker
 
 Developing the web application locally can be opted for over developing in a container. In this circumstance, the application dependencies such as Prisma, Mongo, and Redis will still require Docker to run. Mainly the limitation is that Prisma can't be set up locally like Mongo and Redis.
 
@@ -122,7 +122,7 @@ Depending on which setup was selected, tests can be executed through accessing t
 $ docker exec -it gin-rest-prisma-boilerplate_app_1 go test -v ./tests/*
 ```
 
-#### ✅+ 💻Test Execution When Developing Locally
+#### ✅ + 💻Test Execution When Developing Locally
 
 ```bash
 # non-docker execution
