@@ -26,6 +26,17 @@ This boilerplate is made to leverage the Gin framework and quickly prototype bac
 
 **Note: Docker Desktop comes free on both Mac and Windows, but when on Windows, it only supports Windows 10 Pro. A workaround is to get [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/) which will bypass the Windows 10 Pro prerequisite by executing Docker in a VM.**
 
+#### 🧰 Node
+
+- The [Prisma CLI](https://www.prisma.io/docs/prisma-cli-and-configuration/using-the-prisma-cli-alx4/) is essential for streamlining workflows, and has to be downloaded using NPM. Which means that [Node](https://nodejs.org/en/download/) is a requirement.
+
+- Once Node is installed, the following command will proceed in downloading the Prisma CLI:
+
+```bash
+// prisma cli
+$ npm install -g prisma
+```
+
 ---
 
 ### 🚀 Deployment
@@ -56,13 +67,13 @@ $ docker-compose up
 
 Developing the web application locally can be opted for over developing in a container. In this circumstance, the application dependencies such as Prisma, Mongo, and Redis will still require Docker to run. Mainly the limitation is that Prisma can't be set up locally like Mongo and Redis.
 
-- Execute one of the following commands to run the application dependencies in Docker while leaving the source code to be developed locally:
+- Execute the following commands to run the application dependencies in Docker while leaving the source code to be developed locally:
 
 ```bash
 # runs in detached mode
 $ docker-compose -f docker-compose.override.yml up -d
-# without detaching
-$ docker-compose -f docker-compose.override.yml up
+# prisma deployement
+$ prisma deploy
 ```
 
 ---
@@ -115,14 +126,14 @@ The design behind making the session management, Redis based, instead of Mongo b
 
 Depending on which setup was selected, tests can be executed through accessing the Docker shell or run locally.
 
-#### ✅ + ☁️Test Execution When Developing in Docker
+#### ✅ + ☁️ Test Execution When Developing in Docker
 
 ```bash
 # docker execution
 $ docker exec -it gin-rest-prisma-boilerplate_app_1 go test -v ./tests/*
 ```
 
-#### ✅ + 💻Test Execution When Developing Locally
+#### ✅ + 💻 Test Execution When Developing Locally
 
 ```bash
 # non-docker execution
