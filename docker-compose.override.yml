@@ -15,7 +15,7 @@ services:
             connector: mongo
             uri: 'mongodb://prisma:prisma@mongo'
   mongo:
-    image: mongo:3.6
+    image: mongo:3.7
     restart: always
     # Uncomment the next two lines to connect to your your database from outside the Docker environment, e.g. using a database GUI like Compass
     # ports:
