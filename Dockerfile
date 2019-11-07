@@ -16,15 +16,20 @@ RUN go mod download
 # Copy source files
 COPY . .
 
-# Environment setup
-ENV GOOS linux
-ENV GOARCH amd64
+# Make wait-for-it an executable
+RUN chmod +x ./docker/wait-for-it.sh ./docker/run.sh
 
 # Building the Go app
 RUN go build -v -o app .
 
+# Node PPA
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
+
+# Downloading Node
+RUN apt install nodejs
+
+# Prisma CLI
+RUN npm i -g prisma
+
 # Expose default port 9000
 EXPOSE 9000
-
-# Run the binary
-CMD  [ "./app" ]

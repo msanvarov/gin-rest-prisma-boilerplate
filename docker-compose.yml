@@ -1,18 +1,20 @@
 version: '3'
 services:
   app:
-    build: .
-    environment: 
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
       REDIS_CONNECTION: redis:6379
-    links:
-      - prisma
-      - redis
+      PRISMA_ENDPOINT: http://prisma:4466
+    volumes:
+      - .:/app
     depends_on:
       - prisma
       - redis
-      - mongo
     ports:
       - "9000:9000"
+    command: ./docker/wait-for-it.sh http://prisma:4466 -- ./docker/run.sh  
   prisma:
     image: prismagraphql/prisma:1.34
     restart: always
