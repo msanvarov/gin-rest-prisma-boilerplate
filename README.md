@@ -14,6 +14,71 @@ This boilerplate is made to leverage the Gin framework and quickly prototype bac
 
 ---
 
+### 🍬 Features
+
+- Based on [Gin](https://github.com/gin-gonic/gin).
+
+- [Prisma ORM](https://www.prisma.io/) for Mongo.
+
+- [Gin Sessions](https://github.com/gin-contrib/sessions) for Redis.
+
+- [Gin Authz](https://github.com/gin-contrib/authz) for RBAC management. Utilizes [Casbin](https://github.com/casbin/casbin) in the backend.
+
+- [Viper](https://github.com/spf13/viper) for configurations.
+
+---
+
+### 🌱 Project Structure
+
+A quick synopsis of the folder structure in this project.
+
+```txt
+.
+├── Dockerfile
+├── Gopkg.lock        // dep files
+├── Gopkg.toml        // dep files
+├── Makefile
+├── README.md
+├── config
+│   └── config.go     // viper module to read yaml file
+├── config.yaml       // web app configuration
+├── controllers
+│   └── auth.go       // authentication controller
+├── db
+│   └── db.go         // prisma client instance
+├── docker
+│   ├── replace.awk
+│   ├── run.sh
+│   ├── to-docker.txt
+│   ├── to-local.txt
+│   └── wait-for-it.sh
+├── docker-compose.override.yml
+├── docker-compose.yml
+├── forms
+│   └── user.go       // payloads definitions
+├── go.mod
+├── go.sum
+├── main.go
+├── model.conf        // casbin configs
+├── policy.csv        // casbin configs
+├── prisma
+│   ├── datamodel.prisma
+│   └── prisma.yml    // prisma configs
+├── prisma-client
+│   └── prisma.go     // generated prisma client
+├── renovate.json
+├── router
+│   └── router.go     // application router
+├── tests
+│   └── auth_test.go
+└── utils
+    ├── error.go      // gin global error handler
+    ├── passwords.go  // password hashing util
+    └── rbac.go       // gin authz configuration
+```
+
+---
+
 ### 🛠️ Prerequisites
 
 #### 🐳 Docker
