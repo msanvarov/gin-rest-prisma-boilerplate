@@ -138,6 +138,7 @@ Developing the web application locally can be opted for over developing in a con
 ```bash
 # runs the application locally with only dependencies executing in docker
 $ make ensure-deps
+
 # start the binary
 $ ./gin-rest-prisma-boilerplate
 ```
