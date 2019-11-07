@@ -54,6 +54,7 @@ To achieve the full Docker experience, VSCode permits the development of source 
 ```bash
 # runs in detached mode
 $ docker-compose up -d
+
 # without detaching
 $ docker-compose up
 ```
@@ -63,17 +64,15 @@ $ docker-compose up
 
 **Please beware, each time a change to the code occurs, the container must be rebuilt.**
 
-#### 🏡 Developing Outside of Docker
+#### 🏡 Developing Locally Outside of Docker
 
 Developing the web application locally can be opted for over developing in a container. In this circumstance, the application dependencies such as Prisma, Mongo, and Redis will still require Docker to run. Mainly the limitation is that Prisma can't be set up locally like Mongo and Redis.
 
-- Execute the following commands to run the application dependencies in Docker while leaving the source code to be developed locally:
+- Execute the following command to run the application dependencies in Docker while leaving the source code to be developed locally:
 
 ```bash
-# runs in detached mode
-$ docker-compose -f docker-compose.override.yml up -d
-# prisma deployement
-$ prisma deploy
+# runs the application locally with only dependencies executing in docker
+$ make ensure-deps
 ```
 
 ---
