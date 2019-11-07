@@ -182,22 +182,22 @@ By default, the application leverages the [viper](https://github.com/spf13/viper
 
 ### ❓Why both Redis and Mongo?
 
-The design behind making the session management, Redis based, instead of Mongo based, came down to understanding that constant reads and writes to a database for cookie management were redundant. The focus was to leave the persistent data in Mongo and less important session-based data in Redis. Not to mention the performance benefits that Redis provides over Mongo based queries.
+The design behind making the session management, Redis based, instead of Mongo based, came down to understanding that constant reads and writes to a database for cookie management were redundant. The focus was to leave the persistent data in Mongo and less important session-based data in Redis.
 
 ---
 
 ### ✅ Testing
 
-Depending on which setup was selected, tests can be executed through accessing the Docker shell or run locally.
+Depending on where the development is occuring; docker or not, tests can be executed through the Docker shell or locally.
 
-#### ✅ + ☁️ Test Execution When Developing in Docker
+- ☁️ Test Execution When Developing in Docker:
 
 ```bash
 # docker execution
 $ docker exec -it gin-rest-prisma-boilerplate_app_1 go test -v ./tests/*
 ```
 
-#### ✅ + 💻 Test Execution When Developing Locally
+- 💻 Test Execution When Developing Locally:
 
 ```bash
 # non-docker execution
