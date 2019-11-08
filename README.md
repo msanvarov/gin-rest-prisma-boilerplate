@@ -3,14 +3,15 @@
   <a href="https://gin-gonic.com/" target="blank"><img src="https://raw.githubusercontent.com/gin-gonic/logo/master/color.png" width="200" alt="Nest Logo" /></a>  
 </p>  
   
-Go is an open-source programming language that makes it easy to build simple, reliable, and efficient software. Gin is a web framework for Go to help accelerate web development.
+Golang, is a statically typed, compiled programming language designed at Google that aids in building simple, reliable, and efficient software. Gin is a full-featured web framework for Go that achieves outstanding performance.
 
 [![GoDoc](https://godoc.org/github.com/gin-gonic/gin?status.svg)](https://godoc.org/github.com/gin-gonic/gin)
+[![codebeat badge](https://codebeat.co/badges/c9d048b7-5d3b-416a-ab64-b9f510f947ed)](https://codebeat.co/projects/github-com-msanvarov-gin-rest-prisma-boilerplate-master)
 [![Build Status](https://travis-ci.org/msanvarov/gin-rest-prisma-boilerplate.svg?branch=master)](https://travis-ci.org/msanvarov/gin-rest-prisma-boilerplate)
 
 ### 📚 Description
 
-This boilerplate is made to leverage the Gin framework and quickly prototype backend applications. It comes with database, logging, security, and authentication features out of the box.
+This boilerplate leverages the Gin framework to quickly prototype backend applications. It comes with database, logging, security, and authentication features out of the box.
 
 ---
 
@@ -18,30 +19,28 @@ This boilerplate is made to leverage the Gin framework and quickly prototype bac
 
 - Based on [Gin](https://github.com/gin-gonic/gin).
 
-- [Prisma ORM](https://www.prisma.io/) for Mongo.
+- [Prisma ORM](https://www.prisma.io/) for Mongo. But can support MYSQL/PostgreSQL and Amazon Aurora.
 
 - [Gin Sessions](https://github.com/gin-contrib/sessions) for Redis.
 
-- [Gin Authz](https://github.com/gin-contrib/authz) for RBAC management. Utilizes [Casbin](https://github.com/casbin/casbin) in the backend.
+- [Gin Authz](https://github.com/gin-contrib/authz) for role based access management. Internally, utilizing the powerful authentication library [Casbin](https://github.com/casbin/casbin).
 
-- [Viper](https://github.com/spf13/viper) for configurations.
+- [Viper](https://github.com/spf13/viper) for working with yaml configurations.
 
 ---
 
 ### 🌱 Project Structure
 
-A quick synopsis of the folder structure in this project.
+A quick synopsis of the folder structure.
 
 ```txt
 .
 ├── Dockerfile
-├── Gopkg.lock        // dep files
-├── Gopkg.toml        // dep files
 ├── Makefile
 ├── README.md
 ├── config
 │   └── config.go     // viper module to read yaml file
-├── config.yaml       // web app configuration
+├── config.yaml       // yaml file for web app configuration
 ├── controllers
 │   └── auth.go       // authentication controller
 ├── db
@@ -55,12 +54,12 @@ A quick synopsis of the folder structure in this project.
 ├── docker-compose.override.yml
 ├── docker-compose.yml
 ├── forms
-│   └── user.go       // payloads definitions
+│   └── user.go       // payload definitions
 ├── go.mod
 ├── go.sum
 ├── main.go
-├── model.conf        // casbin configs
-├── policy.csv        // casbin configs
+├── model.conf        // casbin model configuration
+├── policy.csv        // casbin policy configuration
 ├── prisma
 │   ├── datamodel.prisma
 │   └── prisma.yml    // prisma configs
@@ -72,9 +71,9 @@ A quick synopsis of the folder structure in this project.
 ├── tests
 │   └── auth_test.go
 └── utils
-    ├── error.go      // gin global error handler
-    ├── passwords.go  // password hashing util
-    └── rbac.go       // gin authz configuration
+    ├── error.go      // global http error handler
+    ├── passwords.go  // password hashing utility
+    └── rbac.go       // gin authz middleware configuration
 ```
 
 ---
@@ -83,19 +82,19 @@ A quick synopsis of the folder structure in this project.
 
 #### 🐳 Docker
 
-- Please make sure to have `Docker Desktop` setup on any preferred operating system to quickly compose the required dependencies. Then follow the docker procedure outlined below.
+- Please make sure to have `Docker Desktop` operational on the preferred operating system of choice to quickly get started. Then follow the docker procedure outlined below.
 
-- To get familiar with Prisma. A detailed Prisma setup tutorial can be found [here](https://www.prisma.io/docs/get-started/01-setting-up-prisma-new-database-GO-g002/).
+- To get familiar with Prisma, a detailed guide on setting Prisma up can be found [here](https://www.prisma.io/docs/get-started/01-setting-up-prisma-new-database-GO-g002/).
 
-- Redis configuration can be found in the [configuration yaml file](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml#L10-L14).
+- To configure Redis, edit the following [yaml file](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml#L10-L14).
 
-**Note: Docker Desktop comes free on both Mac and Windows, but when on Windows, it only supports Windows 10 Pro. A workaround is to get [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/) which will bypass the Windows 10 Pro prerequisite by executing Docker in a VM.**
+**Note: Despite the fact that Docker Desktop comes free for both Mac and Windows, it only supports the Pro edition of Windows 10. A common workaround is to get [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/) which will bypass the Windows 10 Pro restriction by executing Docker in a VM.**
 
 #### 🧰 Node
 
-- The [Prisma CLI](https://www.prisma.io/docs/prisma-cli-and-configuration/using-the-prisma-cli-alx4/) is essential for streamlining workflows, and has to be downloaded using NPM. Which means that [Node](https://nodejs.org/en/download/) is a requirement.
+- The [Prisma CLI](https://www.prisma.io/docs/prisma-cli-and-configuration/using-the-prisma-cli-alx4/) is essential for streamlining workflows for managing and deploying Prisma services. The CLI can to be downloaded using `npm`; which makes [Node](https://nodejs.org/en/download/) a requirement.
 
-- Once Node is installed, the following command will proceed in downloading the Prisma CLI:
+- On acquisition of NodeJS, the following command will download the Prisma CLI:
 
 ```bash
 // prisma cli
@@ -106,13 +105,15 @@ $ npm install -g prisma
 
 ### 🚀 Deployment
 
-- If needed, replace the existing config variables in the [config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file with preferred configuration.
+- If need be, replace the existing configuration variables in the [config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file with the preferred configuration values.
 
   - Changing the `server.env : "test"` to `server.env : "dev"` yields better logging that can come of use when developing.
 
 #### 🐳 Developing Inside Docker
 
-To achieve the full Docker experience, VSCode permits the development of source code to happen exclusively in a Docker container. For more information on how to achieve this, [please read the following documentation](https://code.visualstudio.com/docs/remote/containers).
+To achieve the full Docker experience, VSCode permits the development of source code to happen exclusively in a Docker container. For more information on how this works, [please read the following documentation](https://code.visualstudio.com/docs/remote/containers).
+
+In attempts to embrace best programming practices, this boilerplate comes with an option to enable development in docker.
 
 - To bring up the web application and all of its dependencies in Docker execute one of the following commands:
 
@@ -124,32 +125,31 @@ $ docker-compose up -d
 $ docker-compose up
 ```
 
-- The following command will set up the project for you (creating the Docker containers, and starting the web application).  
-  The web application and Prisma will then be exposed to http://localhost:9000 and http://localhost:4466 respectively.
+- The web application and Prisma will then be exposed to http://localhost:9000 and http://localhost:4466 respectively.
 
-**Please beware, each time a change to the code occurs, the container must be rebuilt.**
+**Please beware, each time a change to the code base occurs, the main container must be rebuilt.**
 
-#### 🏡 Developing Locally Outside of Docker
+#### ⛲ Developing Locally Outside of Docker
 
-Developing the web application locally can be opted for over developing in a container. In this circumstance, the application dependencies such as Prisma, Mongo, and Redis will still require Docker to run. Mainly the limitation is that Prisma can't be set up locally like Mongo and Redis.
+Developing the web application locally can be chosen over developing in a container. In this case, the application dependencies such as Prisma, Mongo, and Redis will still require Docker to run. Mainly because Prisma can't be set up locally like Mongo and Redis.
 
-- Execute the following command to run the application dependencies in Docker while leaving the source code to be developed locally:
+- Execute the following command to run the application dependencies in Docker without building the web application container:
 
 ```bash
 # runs the application locally with only dependencies executing in docker
 $ make ensure-deps
 
-# start the binary
-$ ./gin-rest-prisma-boilerplate
+# entrypoint for web application
+$ go run main.go
 ```
 
 ---
 
 ### 🔒 Environment Configuration
 
-By default, the application leverages the [viper](https://github.com/spf13/viper) module, which can read every configuration variable from the [`config.yaml`](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file.
+As mentioned before, this application leverages the [Viper](https://github.com/spf13/viper) module, which can read in configuration variables from the [`config.yaml`](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file.
 
-**server.env** - the application environment it will be executing as, either in development, production, or testing. Options: `dev`, `test`, or `prod`.
+**server.env** - the application environment it will be executing in, either in development, production, or testing. Options: `dev`, `test`, or `prod`.
 
 **server.port** - the default port to expose the application to.
 
@@ -159,39 +159,48 @@ By default, the application leverages the [viper](https://github.com/spf13/viper
 
 **redis.network_type** - redis network type, default is "tcp" but "udp" is also supported.
 
-**redis.address** - the URL to the main redis endpoint.
+**redis.address** - the URL to redis endpoint.
 
-**redis.secret_key** - secret key for redis store.
+**redis.secret_key** - secret key to the redis store.
 
 **redis.password** - redis password for authentication.
 
 ---
 
-### 🏗️ Choosing between Dep and Go Modules
+### 📦 Choosing between Dep and Go Modules
 
-**There is an option to choose between Dep or Go modules as the preferred package manager for Golang. By default, Go modules are utilized for their dependency management.**
+**One can choose to use Dep over Go Modules as their preferred package manager for Golang.**
 
-#### 📦 Dep over Go Modules:
+- Dep is a package manager for Go. It aids in managing packages for any Go application. To get stated with dep, please enter in the following command:
 
-- Dep is a package manager for Go. It aids in managing packages for any Go application. To get dep, please type in the following command:
+```bash
+# downloads dep package manager
+$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+```
 
-  `$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh`
+- Then initialize dep by running `dep init` and remove the `go.mod` and `go.sum` files.
 
-- Removing Go Module relateed files involves simply deleting the `go.mod` and `go.sum` files, and run `dep ensure` to verify vendor files are in order.
+```bash
+# initializing dep
+$ dep init
 
-**Note: If on Windows, please use Git Bash or WSL where curl is included by default.**
+# removing the Go Modules files
+$  rm go.mod go.sum
+```
+
+**Note: On Windows, please use Git Bash or WSL where curl is included by default.**
 
 ---
 
 ### ❓Why both Redis and Mongo?
 
-The design behind making the session management, Redis based, instead of Mongo based, came down to understanding that constant reads and writes to a database for cookie management were redundant. The focus was to leave the persistent data in Mongo and less important session-based data in Redis.
+The design behind making the session management, Redis based, instead of Mongo based, came down to understanding that constant reads and writes to a database for cookie management were redundant and ineffective. The focus was to leave the persistent data in Mongo and less important session-based data in Redis.
 
 ---
 
 ### ✅ Testing
 
-Depending on where the development is occuring; docker or not, tests can be executed through the Docker shell or locally.
+Depending on where the development is occurring; in docker or not, tests can be executed through the Docker shell or locally.
 
 - ☁️ Test Execution When Developing in Docker:
 
