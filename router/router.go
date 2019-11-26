@@ -3,9 +3,9 @@ package router
 import (
 	"log"
 	"os"
-	"time"
 	"path/filepath"
 	"runtime"
+	"time"
 
 	"github.com/casbin/casbin"
 	"github.com/gin-contrib/sessions"
@@ -16,12 +16,12 @@ import (
 	"github.com/spf13/viper"
 )
 
-
 var (
-    _, b, _, _ = runtime.Caller(0)
-    basepath   = filepath.Dir(b)
+	_, b, _, _ = runtime.Caller(0)
+	basepath   = filepath.Dir(b)
 )
 
+// Router method is responsible for binding api routes to methods implemented in the controller.
 func Router(config *viper.Viper) *gin.Engine {
 	// default gin configuration
 	router := gin.Default()

@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// IBasicAuthorizer interface.
 type IBasicAuthorizer interface {
 	GetRoleName(c *gin.Context) interface{}
 	CheckPermission(c *gin.Context) bool

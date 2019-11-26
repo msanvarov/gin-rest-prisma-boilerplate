@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 	"log"
-	
+
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/config"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/router"
 )
 
+// Main method to act as a starting point for the web server.
 func main() {
 	yaml := config.Configuration("config")
 	port := yaml.GetString("server.port")

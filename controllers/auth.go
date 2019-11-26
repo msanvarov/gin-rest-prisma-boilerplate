@@ -1,8 +1,9 @@
+// Package controllers includes a collection of controller
+//  structures for executing function logic.
 package controllers
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -15,6 +16,7 @@ import (
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/utils"
 )
 
+// IAuthenticationController interface.
 type IAuthenticationController interface {
 	GetSessionData(c *gin.Context)
 	Register(c *gin.Context)
@@ -22,6 +24,7 @@ type IAuthenticationController interface {
 	Logout(c *gin.Context)
 }
 
+// AuthenticationController for authentication logic.
 type AuthenticationController struct{}
 
 var (
@@ -29,6 +32,7 @@ var (
 	contextB = context.Background()
 )
 
+// GetSessionData method is responsible for retrieving session data once authenticated.
 func (AuthenticationController) GetSessionData(c *gin.Context) {
 	session := sessions.Default(c)
 	uuid := session.Get("uuid")
@@ -37,18 +41,19 @@ func (AuthenticationController) GetSessionData(c *gin.Context) {
 			"email": session.Get("email")})
 	} else {
 		utils.CreateError(c, http.StatusBadRequest,
-			errors.New("Failed to fetch session data. Make sure to be logged in."))
+			"Failed to fetch session data. Make sure to be logged in.")
 	}
 }
 
+// Register method provides registration logic for when onboarding onto the api.
 func (AuthenticationController) Register(c *gin.Context) {
 	var registrationPayload forms.RegistrationForm
 	if validationErr := c.BindJSON(&registrationPayload); validationErr != nil {
-		utils.CreateError(c, http.StatusBadRequest, validationErr)
+		utils.CreateError(c, http.StatusBadRequest, validationErr.Error())
 		return
 	}
 	if hashedPass, hashErr := utils.EncryptPassword(registrationPayload.Password); hashErr != nil {
-		utils.CreateError(c, http.StatusInternalServerError, errors.New("Failed to hash password."))
+		utils.CreateError(c, http.StatusInternalServerError, "Failed to hash password.")
 	} else {
 		registrationPayload.Password = hashedPass
 		user, prismaErr := client.CreateUser(prisma.UserCreateInput{
@@ -61,7 +66,7 @@ func (AuthenticationController) Register(c *gin.Context) {
 
 		if prismaErr != nil {
 			log.Print(prismaErr)
-			utils.CreateError(c, http.StatusNotAcceptable, errors.New("Failed to save profile."))
+			utils.CreateError(c, http.StatusNotAcceptable, "Failed to save profile.")
 			return
 		}
 		// setting session keys
@@ -72,7 +77,7 @@ func (AuthenticationController) Register(c *gin.Context) {
 		session.Set("role", string(user.Role))
 
 		if sessionErr := session.Save(); sessionErr != nil {
-			utils.CreateError(c, http.StatusInternalServerError, sessionErr)
+			utils.CreateError(c, http.StatusInternalServerError, sessionErr.Error())
 			c.Abort()
 			return
 		}
@@ -84,23 +89,24 @@ func (AuthenticationController) Register(c *gin.Context) {
 	}
 }
 
+// Login method provides login logic for when signing into the api.
 func (AuthenticationController) Login(c *gin.Context) {
 	var loginPayload forms.LoginForm
 	if validationErr := c.BindJSON(&loginPayload); validationErr != nil {
-		utils.CreateError(c, http.StatusBadRequest, validationErr)
+		utils.CreateError(c, http.StatusBadRequest, validationErr.Error())
 		return
 	}
 
 	if user, err := client.User(
 		prisma.UserWhereUniqueInput{Username: &loginPayload.Username}).Exec(contextB); err != nil {
 		log.Println(err)
-		utils.CreateError(c, http.StatusBadRequest, errors.New(
+		utils.CreateError(c, http.StatusBadRequest,
 			fmt.Sprintf(
 				"The profile with the username: %s doesn't exist. Please register before trying to login.",
-				loginPayload.Username)))
+				loginPayload.Username))
 	} else {
 		if passwordMatch := utils.CheckPassword(loginPayload.Password, user.Password); passwordMatch != true {
-			utils.CreateError(c, http.StatusNotAcceptable, errors.New("Invalid password details. Please try again."))
+			utils.CreateError(c, http.StatusNotAcceptable, "Invalid password details. Please try again.")
 		} else {
 			// setting session keys
 			session := sessions.Default(c)
@@ -109,7 +115,7 @@ func (AuthenticationController) Login(c *gin.Context) {
 			session.Set("username", user.Name)
 			session.Set("role", string(user.Role))
 			if sessionErr := session.Save(); sessionErr != nil {
-				utils.CreateError(c, http.StatusInternalServerError, sessionErr)
+				utils.CreateError(c, http.StatusInternalServerError, sessionErr.Error())
 				c.Abort()
 				return
 			}
@@ -121,12 +127,13 @@ func (AuthenticationController) Login(c *gin.Context) {
 	}
 }
 
+// Logout method provides logic for logging out once authenticated.
 func (AuthenticationController) Logout(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()
 	if sessionErr := session.Save(); sessionErr != nil {
 		log.Print(sessionErr)
-		utils.CreateError(c, http.StatusInternalServerError, errors.New("Failed to logout."))
+		utils.CreateError(c, http.StatusInternalServerError, "Failed to logout.")
 		c.Abort()
 		return
 	} else {

@@ -1,6 +1,6 @@
 package forms
 
-// Registration Form
+// RegistrationForm structure for defining the type of payload to valid against when registering.
 type RegistrationForm struct {
 	Name     string `json:"name" binding:"required,max=60"`
 	Username string `json:"username" binding:"required,max=20"`
@@ -8,7 +8,7 @@ type RegistrationForm struct {
 	Password string `json:"password" binding:"required"`
 }
 
-// Login Form
+// LoginForm structure for defining the type of payload to valid against when logging in.
 type LoginForm struct {
 	Username string `json:"username" binding:"required,max=20"`
 	Password string `json:"password" binding:"required"`
