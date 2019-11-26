@@ -1,17 +1,17 @@
 # server
 # options between 'dev', 'test' and 'prod'
-server.env : "test"
-server.port : ":9000"
+server.env: "test"
+server.port: ":9000"
 
 # session
-session.name : "gin-rest-prisma-boilerplate-session"
+session.name: "gin-rest-prisma-boilerplate-session"
 
 # redis
-redis.idle_connections : 10
-redis.network_type : "tcp"
-redis.address : "localhost:6379"
-redis.secret_key : "secret"
-redis.password : ""
+redis.idle_connections: 10
+redis.network_type: "tcp"
+redis.address: "localhost:6379"
+redis.secret_key: "secret"
+redis.password: ""
 
 # prisma
-prisma.endpoint : "http://localhost:4466"
+prisma.endpoint: "http://localhost:4466"

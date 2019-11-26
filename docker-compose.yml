@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   app:
     build:
@@ -14,7 +14,7 @@ services:
       - redis
     ports:
       - 9000:9000
-    command: ./docker/wait-for-it.sh http://prisma:4466 -- ./docker/run.sh  
+    command: ./docker/wait-for-it.sh http://prisma:4466 -- ./docker/run.sh
   prisma:
     image: prismagraphql/prisma:1.34
     restart: always
