@@ -18,6 +18,21 @@ This boilerplate leverages the Gin framework to quickly prototype backend applic
 
 ---
 
+
+## 🍬 Features
+
+- Based on [Gin](https://github.com/gin-gonic/gin).
+
+- [Prisma ORM](https://www.prisma.io/) for Mongo. But can support MYSQL/PostgreSQL and Amazon Aurora.
+
+- [Gin Sessions](https://github.com/gin-contrib/sessions) for Redis.
+
+- [Gin Authz](https://github.com/gin-contrib/authz) for role based access management. Internally, utilizing the powerful authentication library [Casbin](https://github.com/casbin/casbin).
+
+- [Viper](https://github.com/spf13/viper) for working with yaml configurations.
+
+---
+
 ## 🛠️ Prerequisites
 
 ### 🐳 Docker
@@ -54,11 +69,12 @@ This boilerplate comes with a `.devcontainer` configuration enabling such a feat
 To get started:
 
 1. Clone this repository.
-2. Press <kbd>F1</kbd> and select the **Remote-Containers: Open Folder in Container...** command.
-3. Select the cloned copy of this folder, wait for the container to start.
-4. Run `make prisma-deploy` or `prisma deploy`.
-5. Wait for prisma to deploy.
-6. Start developing!
+2. Open VSCode and download the [Remote-Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+3. Press <kbd>F1</kbd> and select the **Remote-Containers: Open Folder in Container...** command.
+4. Select the cloned copy of this folder, wait for the container to start.
+5. Run `make prisma-deploy` or `prisma deploy`. Wait for prisma to deploy.
+6. Run `go run main.go`
+7. Start developing!
 
 ### ⛲ Developing Locally Outside of Docker
 
@@ -82,7 +98,7 @@ The design behind making the session management, Redis based, instead of Mongo b
 
 ## 🔒 Environment Configuration
 
-As mentioned before, this application leverages the [Viper](https://github.com/spf13/viper) module, which can read in configuration variables from the [`config.yaml`](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file.
+As mentioned before, this application leverages the [Viper](https://github.com/spf13/viper) module, which can read in configuration variables from the [config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file.
 
 This is a breakdown of the variables:
 
@@ -104,7 +120,7 @@ This is a breakdown of the variables:
 
 ---
 
-### 📦 Choosing between Dep and Go Modules
+## 📦 Choosing between Dep and Go Modules
 
 **One can choose to use Dep over Go Modules as their preferred package manager for Golang.**
 
@@ -140,7 +156,7 @@ $ rm go.*
 
 ---
 
-### 🧪 Testing
+## 🧪 Testing
 
 Depending on where the development is occurring; in docker or not, tests can be executed through the Docker shell or locally.
 
