@@ -133,7 +133,7 @@ $ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 $ dep init
 
 # removing the Go Modules files
-$  rm go.mod go.sum
+$ rm go.mod go.sum
 ```
 
 > **Note: On Windows, please use Git Bash or WSL where curl is included by default.**
