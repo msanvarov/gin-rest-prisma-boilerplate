@@ -4,10 +4,11 @@ go 1.13
 
 require (
 	github.com/casbin/casbin v1.9.1
-	github.com/casbin/casbin/v2 v2.1.2
 	github.com/gin-contrib/sessions v0.0.1
 	github.com/gin-gonic/gin v1.5.0
+	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/gorilla/sessions v1.2.0 // indirect
+	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/machinebox/graphql v0.2.2
 	github.com/matryer/is v1.2.0 // indirect
 	github.com/pelletier/go-toml v1.6.0 // indirect
@@ -19,6 +20,6 @@ require (
 	github.com/spf13/viper v1.5.0
 	github.com/stretchr/testify v1.4.0
 	golang.org/x/crypto v0.0.0-20191122220453-ac88ee75c92c
-	golang.org/x/sys v0.0.0-20191029155521-f43be2a4598c // indirect
-	golang.org/x/text v0.3.2 // indirect
+	golang.org/x/sys v0.0.0-20191127021746-63cb32ae39b2 // indirect
+	gopkg.in/yaml.v2 v2.2.7 // indirect
 )
