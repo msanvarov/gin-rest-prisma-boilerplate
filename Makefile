@@ -1,6 +1,8 @@
-.PHONY: build clean test run ensure-deps prisma-endpoint-to-docker prisma-endpoint-to-local compose-deps prisma-deploy
+.PHONY: develop-locally build clean test run develop-locally prisma-endpoint-to-docker prisma-endpoint-to-local compose-deps prisma-deploy
 
 OUT = ${GOPATH}/bin/gin-rest-prisma-boilerplate
+
+develop-locally: compose-deps prisma-endpoint-to-local prisma-deploy 
 
 build:
 	go build -v -o ${OUT} .
@@ -25,6 +27,3 @@ prisma-endpoint-to-docker:
 
 prisma-deploy:
 	prisma deploy 
-
-ensure-deps:
-	make compose-deps && make prisma-endpoint-to-local && make prisma-deploy
