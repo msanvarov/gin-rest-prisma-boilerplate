@@ -160,17 +160,7 @@ $ rm go.*
 
 Depending on where the development is occurring; in docker or not, tests can be executed through the Docker shell or locally.
 
-- ☁️ Test Execution When Developing in Docker:
-
 ```bash
-# docker execution
-$ docker exec -it gin-rest-prisma-boilerplate_app_1 go test -v ./tests/*
-```
-
-- 💻 Test Execution When Developing Locally:
-
-```bash
-# non-docker execution
 $ go test -v ./tests/*
 ```
 
