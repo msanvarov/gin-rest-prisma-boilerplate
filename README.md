@@ -16,9 +16,149 @@ Golang, is a statically typed, compiled programming language designed at Google 
 
 This boilerplate leverages the Gin framework to quickly prototype backend applications. It comes with database, logging, security, and authentication features out of the box.
 
+---
+
+## 🛠️ Prerequisites
+
+### 🐳 Docker
+
+Please make sure to have Docker Desktop operational on the preferred operating system of choice to quickly get started. To get started, please see the following [link](https://www.docker.com/products/docker-desktop).
+
+> **Note: Despite the fact that Docker Desktop comes free for both Mac and Windows, it only supports the Pro edition of Windows 10. A common workaround is to get [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/) which will bypass the Windows 10 Pro restriction by executing Docker in a VM.**
+
+### 🧰 Node
+
+The [Prisma CLI](https://www.prisma.io/docs/prisma-cli-and-configuration/using-the-prisma-cli-alx4/) is essential for streamlining workflows in managing and deploying Prisma services. The CLI can to be downloaded using `npm`; which requires [NodeJS](https://nodejs.org/en/download/).
+
+Then, the following command will download the Prisma command line interface:
+
+```bash
+// prisma cli
+$ npm install -g prisma
+```
+
+---
+
 ## 🔨 Getting Started
 
-Please follow the guide outlined [on gitbook](https://salim-anvarov.gitbook.io/grpb-starter/).
+If need be, replace the existing configuration variables in the [config.yaml](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file with the preferred configuration values.
+
+> Changing the `server.env : "test"` to `server.env : "dev"` yields better logging that can come of use when developing.
+
+### 🐳 Developing Inside Docker
+
+VSCode permits the development of source code to happen exclusively in a Docker container. For more information on how this works, [please read the following documentation](https://code.visualstudio.com/docs/remote/containers).
+
+This boilerplate comes with a `.devcontainer` configuration enabling such a feature.
+
+To get started:
+
+1. Clone this repository.
+2. Press <kbd>F1</kbd> and select the **Remote-Containers: Open Folder in Container...** command.
+3. Select the cloned copy of this folder, wait for the container to start.
+4. Run `make prisma-deploy` or `prisma deploy`.
+5. Wait for prisma to deploy.
+6. Start developing!
+
+### ⛲ Developing Locally Outside of Docker
+
+Developing locally is still possible but requires some tweaks. The application dependencies such as Prisma, Mongo, and Redis will still require Docker to run. Mainly because Prisma can't be set up locally like Mongo and Redis. But the code itself will not be containerized.
+
+- Execute the following command to run the application dependencies in Docker without building the web application container:
+
+```bash
+# runs the application locally with only dependencies executing in docker
+$ make develop-locally
+
+# entrypoint for web application
+$ go run main.go
+```
+
+### Why both Redis and Mongo❓
+
+The design behind making the session management, Redis based, instead of Mongo based, came down to understanding that constant reads and writes to a database for cookie management were redundant and ineffective. The focus was to leave the persistent data in Mongo and less important session-based data in Redis.
+
+---
+
+## 🔒 Environment Configuration
+
+As mentioned before, this application leverages the [Viper](https://github.com/spf13/viper) module, which can read in configuration variables from the [`config.yaml`](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/config.yaml) file.
+
+This is a breakdown of the variables:
+
+**server.env** - the application environment it will be executing in, either in development, production, or testing. Options: `dev`, `test`, or `prod`.
+
+**server.port** - the default port to expose the application to.
+
+**session.name** - the name of the session for redis.
+
+**redis.idle_connections** - the number of idle connections redis should support (default is 10).
+
+**redis.network_type** - redis network type, default is "tcp" but "udp" is also supported.
+
+**redis.address** - the URL to redis endpoint.
+
+**redis.secret_key** - secret key to the redis store.
+
+**redis.password** - redis password for authentication.
+
+---
+
+### 📦 Choosing between Dep and Go Modules
+
+**One can choose to use Dep over Go Modules as their preferred package manager for Golang.**
+
+- Dep is a package manager for Go. It aids in managing packages for any Go application.
+
+Getting stated with Dep:
+
+On Mac:
+
+```bash
+$ brew install dep
+$ brew upgrade dep
+```
+
+Other Platforms:
+
+```bash
+# downloads dep package manager
+$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+```
+
+- Navigate to the project directory, initialize Dep by running `dep init` then remove the `go.mod` and `go.sum` files.
+
+```bash
+# initializing dep
+$ dep init
+
+# removing the Go Modules files
+$  rm go.mod go.sum
+```
+
+> **Note: On Windows, please use Git Bash or WSL where curl is included by default.**
+
+---
+
+### 🧪 Testing
+
+Depending on where the development is occurring; in docker or not, tests can be executed through the Docker shell or locally.
+
+- ☁️ Test Execution When Developing in Docker:
+
+```bash
+# docker execution
+$ docker exec -it gin-rest-prisma-boilerplate_app_1 go test -v ./tests/*
+```
+
+- 💻 Test Execution When Developing Locally:
+
+```bash
+# non-docker execution
+$ go test -v ./tests/*
+```
+
+---
 
 ## 📝 License
 
