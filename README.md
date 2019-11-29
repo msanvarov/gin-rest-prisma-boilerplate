@@ -72,8 +72,8 @@ To get started:
 2. Open VSCode and download the [Remote-Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 3. Press <kbd>F1</kbd> and select the **Remote-Containers: Open Folder in Container...** command.
 4. Select the cloned copy of this folder, wait for the container to start.
-5. Run `make prisma-deploy` or `prisma deploy`. Wait for prisma to deploy.
-6. Run `go run main.go`
+5. Run `make prisma-deploy` or `prisma deploy`.
+6. Run `make dev`
 7. Start developing!
 
 ### ⛲ Developing Locally Outside of Docker
@@ -87,7 +87,7 @@ Developing locally is still possible but requires some tweaks. The application d
 $ make develop-locally
 
 # entrypoint for web application
-$ go run main.go
+$ make dev
 ```
 
 ### Why both Redis and Mongo❓
