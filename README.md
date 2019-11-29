@@ -60,7 +60,7 @@ If need be, replace the existing configuration variables in the [config.yaml](ht
 
 > Changing the `server.env : "test"` to `server.env : "dev"` yields better logging that can come of use when developing.
 
-### 🐳 Developing Inside Docker
+### 🗳️ + 🐳 Developing Inside Docker
 
 VSCode permits the development of source code to happen exclusively in a Docker container. For more information on how this works, [please read the following documentation](https://code.visualstudio.com/docs/remote/containers).
 
