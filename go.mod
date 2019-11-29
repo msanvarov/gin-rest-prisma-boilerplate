@@ -24,7 +24,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.5.0
 	github.com/stretchr/testify v1.4.0
-	golang.org/x/crypto v0.0.0-20191122220453-ac88ee75c92c
+	golang.org/x/crypto v0.0.0-20191128160524-b544559bb6d1
 	golang.org/x/sys v0.0.0-20191127021746-63cb32ae39b2 // indirect
 	gopkg.in/yaml.v2 v2.2.7 // indirect
 )
