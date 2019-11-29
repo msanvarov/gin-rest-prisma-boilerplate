@@ -13,7 +13,7 @@ var (
 	yaml *viper.Viper
 )
 
-// Returns a pointer to the yaml configuration variables.
+// Configuration returns a pointer to the yaml configuration variables.
 func Configuration(env string) *viper.Viper {
 	once.Do(func() {
 		yaml = viper.New()

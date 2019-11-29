@@ -136,7 +136,6 @@ func (AuthenticationController) Logout(c *gin.Context) {
 		utils.CreateError(c, http.StatusInternalServerError, "Failed to logout.")
 		c.Abort()
 		return
-	} else {
-		c.JSON(http.StatusOK, gin.H{"message": "Logged out..."})
 	}
+	c.JSON(http.StatusOK, gin.H{"message": "Logged out..."})
 }
