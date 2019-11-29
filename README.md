@@ -1,4 +1,4 @@
-# 🐹 Gin Rest Prisma Boilerplate
+# 🍱 Gin Rest Prisma Boilerplate
 
 <p align="center">  
   <a href="http://golang.org" target="blank"><img src="https://cacophony.org.nz/sites/default/files/gopher.png" width="200" alt="Nest Logo" /></a>  
