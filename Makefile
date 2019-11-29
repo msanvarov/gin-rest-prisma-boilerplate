@@ -14,7 +14,7 @@ test:
 	go test -v ./tests/*
 
 dev:
-	fresh
+	fresh || go get -u github.com/pilu/fresh && fresh
 	
 run:
 	go run main.go
