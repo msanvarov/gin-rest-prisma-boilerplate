@@ -104,3 +104,6 @@ modules.xml
 
 # Sonarlint plugin
 .idea/sonarlint
+
+# Fresh temp folder
+tmp/
