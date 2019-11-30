@@ -57,6 +57,10 @@
   branch = "master"
   name = "golang.org/x/crypto"
 
+[[override]]
+  branch = "master"
+  name = "github.com/boj/redistore"
+
 [prune]
   go-tests = true
   unused-packages = true

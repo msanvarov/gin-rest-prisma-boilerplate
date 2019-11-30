@@ -10,12 +10,12 @@
   version = "v3.0.0"
 
 [[projects]]
-  digest = "1:db932d4696ed23e244a69a60d258a23816aceb012a95e4c3871c711d4fc120e7"
+  branch = "master"
+  digest = "1:d6a0c3497492e22571221426f2045e2f8f7236e02c3e42766066f395519789a6"
   name = "github.com/boj/redistore"
   packages = ["."]
   pruneopts = "UT"
-  revision = "fc113767cd6b051980f260d6dbe84b2740c46ab0"
-  version = "v1.2"
+  revision = "cd5dcc76aeff9ba06b0a924829fe24fd69cdd517"
 
 [[projects]]
   digest = "1:d3d1f7bfcaaa5cc56c36d010937e28d1c6c38810b95086cd445eb433b83cbf75"
@@ -60,17 +60,6 @@
   pruneopts = "UT"
   revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
   version = "v1.4.7"
-
-[[projects]]
-  digest = "1:0594af97b2f4cec6554086eeace6597e20a4b69466eb4ada25adf9f4300dddd2"
-  name = "github.com/garyburd/redigo"
-  packages = [
-    "internal",
-    "redis",
-  ]
-  pruneopts = "UT"
-  revision = "a69d19351219b6dd56f274f96d85a7014a2ec34e"
-  version = "v1.6.0"
 
 [[projects]]
   digest = "1:2b59c484fa7517fa3894ac4915fefacf8187d4e691d42ee939bfe21cb6138acc"
