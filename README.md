@@ -18,7 +18,6 @@ This boilerplate leverages the Gin framework to quickly prototype backend applic
 
 ---
 
-
 ## 🍬 Features
 
 - Based on [Gin](https://github.com/gin-gonic/gin).
@@ -120,9 +119,7 @@ This is a breakdown of the variables:
 
 ---
 
-## 📦 Choosing between Dep and Go Modules
-
-**One can choose to use Dep over Go Modules as their preferred package manager for Golang.**
+## 📦 Dep Package Manager
 
 - Dep is a package manager for Go. It aids in managing packages for any Go application.
 
@@ -145,14 +142,21 @@ $ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 - Navigate to the project directory, initialize Dep by running `dep init` then remove the `go.mod` and `go.sum` files.
 
 ```bash
-# initializing dep
-$ dep init
+# ensuring dep dependencies are present
+$ dep ensure
 
-# removing the Go Modules files
-$ rm go.*
 ```
 
 > **Note: On Windows, please use Git Bash or WSL where curl is included by default.**
+
+### ✨ Choosing Go Modules over Dep
+
+**One can choose Go Modules over Dep as its a native module version manager for Golang.**
+
+1. Run `go mod init`
+2. Run `go mod download` to ensure dependencies are downloaded in the `GOPATH`.
+3. Run `go mod tidy` to incorporate version locking.
+4. Remove dep files with `rm -rf vendor Gopkg.*`
 
 ---
 
