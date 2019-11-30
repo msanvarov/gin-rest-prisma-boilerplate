@@ -18,9 +18,9 @@ import (
 )
 
 var (
+	cookie              string
 	routing             = router.Router(config.Configuration("../config"))
 	client              = db.DB()
-	cookie              string
 	registrationPayload = forms.RegistrationForm{
 		Name:     "test",
 		Username: "test",
