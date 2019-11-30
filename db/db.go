@@ -15,11 +15,13 @@ var (
 // DB method is responsible for establishing a prisma connection and returning a pointer to it.
 func DB() *prisma.Client {
 	once.Do(func() {
+		// for docker
 		if prismaEndpoint := os.Getenv("PRISMA_ENDPOINT"); prismaEndpoint != "" {
 			client = prisma.New(&prisma.Options{
 				Endpoint: prismaEndpoint,
 			})
 		} else {
+			// infers default endpoint from prisma yaml file
 			client = prisma.New(nil)
 		}
 	})
