@@ -11,6 +11,7 @@ Golang, is a statically typed, compiled programming language designed at Google 
 [![codebeat badge](https://codebeat.co/badges/c9d048b7-5d3b-416a-ab64-b9f510f947ed)](https://codebeat.co/projects/github-com-msanvarov-gin-rest-prisma-boilerplate-master)
 [![Build Status](https://travis-ci.org/msanvarov/gin-rest-prisma-boilerplate.svg?branch=master)](https://travis-ci.org/msanvarov/gin-rest-prisma-boilerplate)
 [![GitHub license](https://img.shields.io/github/license/msanvarov/gin-rest-prisma-boilerplate)](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/LICENSE)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmsanvarov%2Fgin-rest-prisma-boilerplate.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmsanvarov%2Fgin-rest-prisma-boilerplate?ref=badge_shield)
 
 ## 📚 Description
 
