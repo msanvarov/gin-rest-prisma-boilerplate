@@ -9,25 +9,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/msanvarov/gin-rest-prisma-boilerplate/config"
-	"github.com/msanvarov/gin-rest-prisma-boilerplate/db"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/forms"
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/prisma-client"
-	"github.com/msanvarov/gin-rest-prisma-boilerplate/router"
 	"github.com/stretchr/testify/assert"
-)
-
-var (
-	cookie              string
-	routing             = router.Router(config.Configuration("../config"))
-	client              = db.DB()
-	registrationPayload = forms.RegistrationForm{
-		Name:     "test",
-		Username: "test",
-		Email:    "test@test.com",
-		Password: "test1234",
-	}
-	loginPayload = forms.LoginForm{Username: "test", Password: "test1234"}
 )
 
 /**
@@ -39,6 +23,8 @@ func TestRegistration(t *testing.T) {
 	if req, err := http.NewRequest(
 		"POST", "/api/v1/register", bytes.NewBufferString(string(data))); err != nil {
 		fmt.Println(err)
+		assert.Fail(t, err.Error())
+		return
 	} else {
 		req.Header.Set("Content-Type", "application/json")
 		resp := httptest.NewRecorder()
@@ -57,6 +43,8 @@ func TestDuplicateUsername(t *testing.T) {
 	if req, err := http.NewRequest(
 		"POST", "/api/v1/register", bytes.NewBufferString(string(data))); err != nil {
 		fmt.Println(err)
+		assert.Fail(t, err.Error())
+		return
 	} else {
 		req.Header.Set("Content-Type", "application/json")
 		resp := httptest.NewRecorder()
@@ -78,6 +66,8 @@ func TestInvalidPayload(t *testing.T) {
 	if req, err := http.NewRequest(
 		"POST", "/api/v1/register", bytes.NewBufferString(string(data))); err != nil {
 		fmt.Println(err)
+		assert.Fail(t, err.Error())
+		return
 	} else {
 		req.Header.Set("Content-Type", "application/json")
 		resp := httptest.NewRecorder()
@@ -97,6 +87,8 @@ func TestLogin(t *testing.T) {
 	if req, err := http.NewRequest(
 		"POST", "/api/v1/login", bytes.NewBufferString(string(data))); err != nil {
 		fmt.Println(err)
+		assert.Fail(t, err.Error())
+		return
 	} else {
 		req.Header.Set("Content-Type", "application/json")
 		resp := httptest.NewRecorder()
@@ -114,6 +106,8 @@ func TestLogin(t *testing.T) {
 func TestFetchingSessionData(t *testing.T) {
 	if req, err := http.NewRequest("GET", "/api/v1/session", nil); err != nil {
 		fmt.Println(err)
+		assert.Fail(t, err.Error())
+		return
 	} else {
 		req.Header.Set("Cookie", cookie)
 		resp := httptest.NewRecorder()
@@ -128,8 +122,10 @@ func TestFetchingSessionData(t *testing.T) {
 * Must return response code 200
  */
 func TestLogout(t *testing.T) {
-	if req, err := http.NewRequest("GET", "/api/v1/logout", nil); err != nil {
+	if req, err := http.NewRequest("POST", "/api/v1/logout", nil); err != nil {
 		fmt.Println(err)
+		assert.Fail(t, err.Error())
+		return
 	} else {
 		req.Header.Set("Cookie", cookie)
 		resp := httptest.NewRecorder()
@@ -150,6 +146,8 @@ func TestTeardown(t *testing.T) {
 	}).Exec(ctx)
 	if err != nil {
 		fmt.Println(err)
+		assert.Fail(t, err.Error())
+		return
 	} else {
 		assert.NotEqual(t, nil, deletedUser)
 	}
