@@ -31,6 +31,8 @@ This boilerplate leverages the Gin framework to quickly prototype backend applic
 
 - [Viper](https://github.com/spf13/viper) for working with yaml configurations.
 
+- [Gin Swagger](https://github.com/swaggo/gin-swagger) for API specifications.
+
 ---
 
 ## 🛠️ Prerequisites
@@ -208,6 +210,5 @@ This boilerplate comes with a lot of crucial Makefile methods to aid in developm
 GRPB is [MIT licensed](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/LICENSE).
 
 [Author: Sal Anvarov](https://msanvarov.github.io/personal-portfolio/).
-
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmsanvarov%2Fgin-rest-prisma-boilerplate.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmsanvarov%2Fgin-rest-prisma-boilerplate?ref=badge_large)
