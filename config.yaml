@@ -1,4 +1,6 @@
 # server
+# leave out the port as it is defined in server.port
+server.endpoint: "http://localhost"
 # options between 'dev', 'test' and 'prod'
 server.env: "test"
 server.port: ":9000"
