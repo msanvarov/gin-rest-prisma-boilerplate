@@ -72,9 +72,10 @@ To get started:
 2. Open VSCode and download the [Remote-Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 3. Press <kbd>F1</kbd> and select the **Remote-Containers: Open Folder in Container...** command.
 4. Select the cloned copy of this folder, wait for the container to start.
-5. Run `make prisma-deploy` or `prisma deploy`.
-6. Run `make dev`
-7. Start developing!
+5. Run `make prisma-endpoint-to-docker` to guarantee `prisma deploy` works as intended.
+6. Run `make prisma-deploy` or `prisma deploy`.
+7. Run `make dev` (server reloading) or `make run` (no server reloading)
+8. Start developing!
 
 ### ⛲ Developing Locally Outside of Docker
 
@@ -88,6 +89,9 @@ $ make develop-locally
 
 # entrypoint for web application
 $ make dev
+
+#or (for development without server reloading)
+$ make run
 ```
 
 ### Why both Redis and Mongo❓
@@ -168,6 +172,34 @@ Depending on where the development is occurring; in docker or not, tests can be 
 ```bash
 $ go test -v ./tests/*
 ```
+
+---
+
+## 🗃️ Makefile
+
+This boilerplate comes with a lot of crucial Makefile methods to aid in development.
+
+`develop-locally`: responsible for preparing the application to be developed locally, it composes redis, mongo and prisma to run locally.
+
+`build` : builds the application for deployment.
+
+`clean`: removes the generated binary from the `build` command.
+
+`test`: runs e2e testing.
+
+**`dev`: Starts the application with fresh to enable auto reloading on saves. Can be paired with `docs` command to automate viewing api spec changes.**
+
+`docs`: generates swagger docs.
+
+`run`: starts the server without fresh, meaning auto-reloading won't happen on file saves.
+
+`compose-deps`: composes prisma, mongo, and redis only.
+
+`prisma-endpoint-to-local`: changes the `prisma.yml` endpoint to localhost so that `prisma deploy` can work properly when developing locally.
+
+`prisma-endpoint-to-docker`: changes the `prisma.yml` endpoint to the prisma container so that `prisma deploy` can work properly when developing in a container.
+
+`prisma-deploy`: generates the prisma client files and deploys the prisma datamodel.
 
 ---
 
