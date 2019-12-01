@@ -26,6 +26,10 @@
 
 
 [[constraint]]
+  branch = "master"
+  name = "github.com/alecthomas/template"
+
+[[constraint]]
   name = "github.com/casbin/casbin"
   version = "1.9.1"
 
@@ -52,6 +56,18 @@
 [[constraint]]
   name = "github.com/stretchr/testify"
   version = "1.4.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/swaggo/files"
+
+[[constraint]]
+  name = "github.com/swaggo/gin-swagger"
+  version = "1.2.0"
+
+[[constraint]]
+  name = "github.com/swaggo/swag"
+  version = "1.6.3"
 
 [[constraint]]
   branch = "master"
