@@ -11,6 +11,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+/**
+* Test Ping
+* Must return response body of Pong
+ */
 func TestPing(t *testing.T) {
 	data, _ := json.Marshal(loginPayload)
 	if req, err := http.NewRequest(
