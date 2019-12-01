@@ -8,11 +8,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-type IConfiguration interface {
-	Configuration(env string)
-	GetConfiguration() *viper.Viper
-}
-
 var (
 	once sync.Once
 	yaml *viper.Viper

@@ -7,11 +7,6 @@ import (
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/prisma-client"
 )
 
-// IDatabase interface
-type IDatabase interface {
-	GetDB() *prisma.Client
-}
-
 var (
 	client *prisma.Client
 	once   sync.Once
