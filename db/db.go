@@ -7,13 +7,18 @@ import (
 	"github.com/msanvarov/gin-rest-prisma-boilerplate/prisma-client"
 )
 
+// IDatabase interface
+type IDatabase interface {
+	GetDB() *prisma.Client
+}
+
 var (
 	client *prisma.Client
 	once   sync.Once
 )
 
-// DB method is responsible for establishing a prisma connection and returning a pointer to it.
-func DB() *prisma.Client {
+// GetDB method is responsible for establishing a prisma connection and returning a pointer to it.
+func GetDB() *prisma.Client {
 	once.Do(func() {
 		// for docker
 		if prismaEndpoint := os.Getenv("PRISMA_ENDPOINT"); prismaEndpoint != "" {
