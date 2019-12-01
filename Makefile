@@ -1,4 +1,4 @@
-.PHONY: develop-locally build clean test run develop-locally prisma-endpoint-to-docker prisma-endpoint-to-local compose-deps prisma-deploy dev
+.PHONY: develop-locally build clean test run develop-locally prisma-endpoint-to-docker prisma-endpoint-to-local compose-deps prisma-deploy dev docs
 
 OUT = ${GOPATH}/bin/gin-rest-prisma-boilerplate
 
@@ -15,6 +15,9 @@ test:
 
 dev:
 	fresh || go get -u github.com/pilu/fresh && fresh
+
+docs:
+	swag init || go get -u github.com/swaggo/swag/cmd/swag
 	
 run:
 	go run main.go
