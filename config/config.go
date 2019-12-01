@@ -8,22 +8,29 @@ import (
 	"github.com/spf13/viper"
 )
 
+type IConfiguration interface {
+	Configuration(env string)
+	GetConfiguration() *viper.Viper
+}
+
 var (
 	once sync.Once
 	yaml *viper.Viper
 )
 
-// Configuration returns a pointer to the yaml configuration variables.
-func Configuration(env string) *viper.Viper {
-	once.Do(func() {
-		yaml = viper.New()
-		yaml.SetConfigType("yaml")
-		yaml.SetConfigName(env)
-		yaml.AddConfigPath(".")
-		err := yaml.ReadInConfig()
-		if err != nil {
-			log.Fatal(err)
-		}
-	})
+// Configure returns a pointer to the yaml configuration variables.
+func Configure(fileName string) {
+	yaml = viper.New()
+	yaml.SetConfigType("yaml")
+	yaml.SetConfigName(fileName)
+	yaml.AddConfigPath(".")
+	err := yaml.ReadInConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+// GetConfiguration retrieves the configuration structure.
+func GetConfiguration() *viper.Viper {
 	return yaml
 }
