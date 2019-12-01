@@ -2,10 +2,15 @@ package utils
 
 import "github.com/gin-gonic/gin"
 
+// IGlobalErrorHandler interface.
+type IGlobalErrorHandler interface {
+	CreateError(c *gin.Context, status int, errMessage string)
+}
+
 // HTTPError structure to define response payload on error.
 type HTTPError struct {
 	Code    int    `json:"code" example:"400"`
-	Message string `json:"message" example:"status bad request"`
+	Message string `json:"message" example:"Bad Request"`
 }
 
 // CreateError responds to client requests with error payloads.
