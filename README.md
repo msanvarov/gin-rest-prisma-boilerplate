@@ -2,7 +2,8 @@
 
 <p align="center">  
   <a href="http://golang.org" target="blank"><img src="https://cacophony.org.nz/sites/default/files/gopher.png" width="200" alt="Nest Logo" /></a>  
-  <a href="https://gin-gonic.com/" target="blank"><img src="https://raw.githubusercontent.com/gin-gonic/logo/master/color.png" width="200" alt="Nest Logo" /></a>  
+  <a href="https://gin-gonic.com/" target="blank"><img src="https://raw.githubusercontent.com/gin-gonic/logo/master/color.png" width="200" alt="Nest Logo" /></a> <a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fmsanvarov%2Fgin-rest-prisma-boilerplate?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmsanvarov%2Fgin-rest-prisma-boilerplate.svg?type=shield"/></a>
+ 
 </p>  
   
 Golang, is a statically typed, compiled programming language designed at Google that aids in building simple, reliable, and efficient software. Gin is a full-featured web framework for Go that achieves outstanding performance.
@@ -175,3 +176,6 @@ $ go test -v ./tests/*
 GRPB is [MIT licensed](https://github.com/msanvarov/gin-rest-prisma-boilerplate/blob/master/LICENSE).
 
 [Author: Sal Anvarov](https://msanvarov.github.io/personal-portfolio/).
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmsanvarov%2Fgin-rest-prisma-boilerplate.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmsanvarov%2Fgin-rest-prisma-boilerplate?ref=badge_large)
