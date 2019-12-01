@@ -26,10 +26,12 @@ compose-deps:
 	docker-compose -f docker-compose.override.yml up -d
 
 prisma-endpoint-to-local:
-	awk -f ./docker/replace.awk ./docker/to-local.txt ./prisma/prisma.yml | tee ./prisma/prisma.yml
+	awk -f ./docker/replace.awk ./docker/to-local.txt ./prisma/prisma.yml > ./docker/prisma.yml \
+	&& mv ./docker/prisma.yml ./prisma/prisma.yml   
 
 prisma-endpoint-to-docker:
-	awk -f ./docker/replace.awk ./docker/to-docker.txt ./prisma/prisma.yml | tee ./prisma/prisma.yml
+	awk -f ./docker/replace.awk ./docker/to-docker.txt ./prisma/prisma.yml > ./docker/prisma.yml \
+	&& mv ./docker/prisma.yml ./prisma/prisma.yml    
 
 prisma-deploy:
-	prisma deploy 
+	prisma deploy
